@@ -1,0 +1,46 @@
+
+  .page {
+    padding-top: 10rem;
+    padding-left: 30rem;
+    align-items: center;
+   
+  }
+
+.heading{
+  padding-top: 6rem;
+  padding-left: 6rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+  
+*{
+  text-align:justify
+
+}
+.main{
+  background-color: rgba(100, 197, 165, 0.71);
+  height: 100%;
+  width: 100%;
+  position:absolute;
+  top: 0;
+}
+.popup{
+  height: 260px;
+  width: 50%;
+  background-color: rgb(138, 184, 177);
+  position: absolute;
+  top: 25%;
+  right: 25%;
+}
+.popup-header{
+  display: flex;
+  justify-content: space-between;
+  padding-top: 2rem;
+  padding-left: 2rem;
+ 
+}
+.opt{
+  align-items: center;
+  padding-left: 12rem;
+  padding-top: 3rem;
+ 
+}
