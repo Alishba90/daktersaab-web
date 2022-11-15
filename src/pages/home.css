@@ -1,11 +1,6 @@
-
-  .page {
-    padding-top: 10rem;
-    padding-left: 30rem;
-    align-items: center;
-   
-  }
-
+.nav{
+  background-color: aquamarine;
+}
 .heading{
   padding-top: 6rem;
   padding-left: 6rem;
@@ -51,4 +46,32 @@
 .btn3{
   margin-top:4rem;
   margin-left: 5rem;
+}
+.intro{
+  padding-top: 8rem;
+  padding-left: 10rem;
+}
+
+.reg-btn{
+  margin-left: 40rem;
+  width: 15rem;
+  height: 4rem;
+  background-color: transparent;
+  border-color: cadetblue;
+}
+.update-btn{
+  margin-left: 40rem;
+  margin-top: 2rem;
+  width: 15rem;
+  height: 4rem;
+  background-color: transparent;
+  border-color: cadetblue;
+}
+.contact-btn{
+  margin-left: 40rem;
+  margin-top: 2rem;
+  width: 15rem;
+  height: 4rem;
+  background-color: transparent;
+  border-color: cadetblue;
 }

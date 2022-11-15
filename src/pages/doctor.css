@@ -1,3 +1,35 @@
-.manaul{
-    padding-left: 10rem;
+.manual{
+    padding-left: 20rem;
+    padding-top: 5rem;
+    align-items: center;
+    display: flex;
+}
+.csv{
+    padding-left: 20rem;
+    padding-top: 5rem;
+    align-items: center;
+    display: flex;
+}
+.file_upload {
+    position: relative;
+    min-width: 90px;
+    text-align: center;
+    color: #80d3b3;
+    line-height: 25px;
+    background: #fff;
+    font-weight: 600;
+    padding-left: 1rem;
+  }
+
+.click{
+    position: relative;
+    min-width: 90px;
+    text-align: center;
+    font-weight: 600;
+    padding-left: 0.4rem;
+    border-radius: 2px;
+}
+.form{
+    padding: auto;
+    align-items: center;
 }
