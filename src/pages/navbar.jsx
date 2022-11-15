@@ -6,10 +6,10 @@ const Navbar = () => {
         <>
             <div className="container-fluid nav_bg">
                 <div className="row">
-                    <div className="col-26 mx-auto">
+                    <div className="col-20 mx-auto">
                         <nav className="navbar navbar-expand-lg bg-light">
                             <div className="container-fluid">
-                                <a className="navbar-brand" >Navbar</a>
+                                <a className="navbar-brand" >DakterSaab</a>
                                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                                     <span className="navbar-toggler-icon"></span>
                                 </button>

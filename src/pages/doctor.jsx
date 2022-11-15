@@ -46,12 +46,10 @@ const Doctor = () => {
   
   return (
     <>
-    <div className="main">
+   
     
     
-      <div className="manual">
-      <Button variant="outlined">Primary</Button>
-      </div>
+     
       <div >
       {/* File Uploader */}
       <input
@@ -91,7 +89,7 @@ const Doctor = () => {
       <Button variant="contained" component="label" alignItems="right" className="upload" >
         Upload File
       </Button>}
-      </div>
+
   
     </>
   );
