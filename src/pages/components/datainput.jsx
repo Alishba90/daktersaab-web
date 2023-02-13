@@ -1,29 +1,10 @@
 import React from "react";
 import Papa from "papaparse";
-import { useState } from "react";
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
-import Radio, { RadioProps } from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import './doctor.css'
-const Doctor = () => {
 
-
-
-  const [show, setShow] = useState(false);
-  const [hide, setHide] = useState(false)
-  const [showForm, setShowForm] = useState(false);
-
-  const Form = () => {
-    setShowForm(!showForm);
-  }
+import { useState  } from "react";
+const Datainput = () => {
 
   const [parsedData, setParsedData] = useState([]);
-
-
 
   //State to store table Column name
   const [tableRows, setTableRows] = useState([]);
@@ -56,39 +37,9 @@ const Doctor = () => {
       },
     });
   };
-
-  return (
-
-    <>
-      <div className="manual">
-        <label>Enter data Manaually: &nbsp; &nbsp; &nbsp;</label>
-        <br />
-        <br />
-
-        <button className="click" onClick={Form}>Register</button>
-
-      </div>
-      <div>
-      {showForm && (
-        <form>
-          <label>
-          Doctor's Name:
-            <input type="text" name="name" />
-          </label><br/>
-          <label>
-          Speciality/Qualification:
-            <input type="text" name="name" />
-          </label><br/>
-          <label>
-          Day: <br/>
-           
-          </label><br/>
-
-          <input type="submit" value="Submit" />
-        </form>)}
-        </div>
-
-      <div className="csv">
+    return (
+        <>
+            <div className="csv">
         <label>Enter data by uploading a CSV file:</label>
         <br />
         <br />
@@ -97,14 +48,12 @@ const Doctor = () => {
           type="file"
           name="file"
           className="file_upload"
-          onClick={() => setShow(prev => !prev)}
+          
           onChange={changeHandler}
           accept=".csv"
         />
       </div>
-      <br />
-      <br />
-      <div>
+<div>
         {/* Table */}
         <table>
           <thead>
@@ -127,15 +76,10 @@ const Doctor = () => {
           </tbody>
         </table>
       </div>
-      {show &&
-        <Button variant="contained" component="label" alignItems="right" className="uploads" >
-          Upload File
-        </Button>}
 
+   
 
-    </>
-  );
-
+        </>
+    );
 }
-
-export default Doctor
+export default Datainput;

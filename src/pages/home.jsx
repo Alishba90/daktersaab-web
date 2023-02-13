@@ -10,17 +10,24 @@ const Home = () => {
 
 
   let navigate = useNavigate();
-  const doctor = () => {
-    let path = './doctor';
+  const data = () => {
+    let path = './data';
     navigate(path);
   }
   const bloodbank = () => {
     let path1 = './blood';
     navigate(path1);
   }
+
+  
   const pharmacy = () => {
     let path2 = './pharmacy';
     navigate(path2);
+  }
+
+  const hospital = () => {
+    let path3 = './hospital';
+    navigate(path3);
   }
   const [popup, setPop] = useState(false)
   const handleClickOpen = () => {
@@ -62,9 +69,10 @@ const Home = () => {
                     <button type="button" class="btn-close pr-10" aria-label="Close" onClick={closePopup}></button>
                   </div>
                   <div className='opt'>
-                    <button className='btn1' onClick={doctor}>Hospital</button>
+                    <button className='btn1' onClick={data}>Doctor</button>
                     <button className='btn2' onClick={bloodbank}>Blood Bank</button>
                     <button className='btn3' onClick={pharmacy}>Pharmacy</button>
+                    <button className='btn3' onClick={hospital}>Hospital</button>
                   </div>
                 </div>
               </div> : ""

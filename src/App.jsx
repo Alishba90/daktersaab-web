@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.css';
 import Home from './pages/home';
-import Doctor from './pages/doctor';
+import Data from './pages/data';
 import Blood from './pages/blood';
+import Hospital from './pages/hospital';
 import Pharmacy from './pages/pharmacy';
-import Navbar from './pages/navbar';
+import Navbar from './pages/components/navbar';
 import About from './pages/about';
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle"
@@ -17,11 +18,12 @@ const App=()=>{
     <Routes>
     <Route exact path = "/" element ={<Home/>}/>
     <Route exact path = "/about" element ={<About/>}/>
-    <Route exact path = "/doctor" element ={<Doctor/>}/>
+    <Route exact path = "/data" element ={<Data/>}/>
     <Route exact path = "/blood" element ={<Blood/>}/>
     <Route exact path = "/pharmacy" element ={<Pharmacy/>}/>
-   
+   <Route exact path='/hospital' element= {<Hospital/>}/>
     </Routes>
+
     </>
   );
 }
