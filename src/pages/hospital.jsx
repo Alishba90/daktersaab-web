@@ -9,6 +9,9 @@ const Hospital=()=>{
 let navigate = useNavigate();
 const [eValid,setevalid]=useState();
 const [pValid,setpvalid]=useState();
+
+const [hosexist,sethospitalexist]=useState(false)
+
 const days=["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]
 
 const [formValue, setformValue] = React.useState({
@@ -81,23 +84,14 @@ if(e.target.name==='password'){
 const submitForm = async(e)=>{
 
             e.preventDefault();
-            const hospitalFormData = new FormData();
-            
-            hospitalFormData.append("name",formValue.name)
-            hospitalFormData.append("location",formValue.location)
-            hospitalFormData.append("email",formValue.email)
-            hospitalFormData.append("phone1",formValue.phone1)
-            hospitalFormData.append("phone2",formValue.phone2)
-            hospitalFormData.append("password",formValue.password)
+
 console.log(timings)
-            hospitalFormData.append("timings",timings)
+            
   setformValue({
       ...formValue,
       [timings]: timings
     })
-for (var pair of hospitalFormData.entries()) {
-    console.log(pair[0]+ ', ' + pair[1]); 
-}
+
             try{
       fetch('http://localhost:5000/api/hospital/add', {
         method: 'POST',
@@ -108,7 +102,10 @@ for (var pair of hospitalFormData.entries()) {
       })
                 
 
-      .then(res => {if (res.status === 200){console.log(res.data); navigate('./data')}
+      .then(res => {
+if (res.status === 200){console.log(res.data); navigate('./data');sethospitalexist(false)}
+else if(res.status===430){sethospitalexist(true)}
+
 else{console.log("error in sending data", res.data)}
 
 });
@@ -117,6 +114,10 @@ else{console.log("error in sending data", res.data)}
 
 return(
     <>
+
+{hosexist &&
+<h1>Hospital already exists</h1>
+}
 <form  id="hospitaldata" onSubmit={submitForm}>
 
         <label>
