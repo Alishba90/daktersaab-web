@@ -15,19 +15,19 @@ const Home = () => {
     navigate(path);
   }
   const bloodbank = () => {
-    let path1 = './blood';
-    navigate(path1);
+    
+    navigate('/login',{state:{data:"blood"}});
   }
 
   
   const pharmacy = () => {
-    let path2 = './pharmacy';
-    navigate(path2);
+    
+    navigate('/login',{state:{data:"pharmacy"}});
   }
 
   const hospital = () => {
-    let path3 = './hospital';
-    navigate(path3);
+    
+    navigate('/login',{state:{data:"hospital"}});
   }
   const [popup, setPop] = useState(false)
   const handleClickOpen = () => {
@@ -48,14 +48,15 @@ const Home = () => {
 
           {/* Buttons */}
           <div className='reg'>
-            <button type="button" className="reg-btn " onClick={handleClickOpen}>Register Yourself</button>
+            <button type="button" className="reg-btn "  onClick={hospital}>Hospital</button>
           </div>
           <div className='update'>
-            <button type="button" className="update-btn " >Update Data</button>
+            <button type="button" className="update-btn " onClick={handleClickOpen}>Pharmacy</button>
           </div>
-          <div className='contact'>
-            <button type="button" className="contact-btn " >Contact Us!</button>
+          <div className='update'>
+            <button type="button" className="update-btn " >Blood Bank</button>
           </div>
+
 
         </div>
         {/* Pop up */}

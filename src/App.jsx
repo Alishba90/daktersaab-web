@@ -6,6 +6,7 @@ import Blood from './pages/blood';
 import Hospital from './pages/hospital';
 import Pharmacy from './pages/pharmacy';
 import Navbar from './pages/components/navbar';
+import Login from './pages/login';
 import About from './pages/about';
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle"
@@ -21,7 +22,8 @@ const App=()=>{
     <Route exact path = "/data" element ={<Data/>}/>
     <Route exact path = "/blood" element ={<Blood/>}/>
     <Route exact path = "/pharmacy" element ={<Pharmacy/>}/>
-   <Route exact path='/hospital' element= {<Hospital/>}/>
+    <Route exact path='/hospital' element= {<Hospital/>}/>
+    <Route exact path='/login' element= {<Login/>}/>
     </Routes>
 
     </>
