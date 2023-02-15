@@ -1,33 +1,9 @@
-import React from "react";
-
-import { useState } from "react";
-
-import Datainput from './components/datainput';
-
-import './data.css'
-
-
-const Data = () => {
- 
-  const [counter , setCounter]=useState(5);
-  const [showForm, setShowForm] = useState(false);
-
-
-
-  return (
-
-    <>
-      <div className="manual">
+<div className="manual">
         <label>Enter data Manaually: &nbsp; &nbsp; &nbsp;</label>
         <br />
         <br />
 
-        <button className="click" onClick={()=>{setShowForm(!showForm);}}>Register</button>
-
-      </div>
-      <div>
-      {showForm && (
-        <form action ="" method="POST">
+        
             {Array.apply(null,{length:counter}).map((e,i)=>(
             <><div>
                     <label>
@@ -83,21 +59,3 @@ const Data = () => {
             </>
             ))}
             <button onClick={()=>setCounter(counter+1)}>+</button>
-
-          
-        </form>)}
-        </div>
-
-            <Datainput/>
-
-      <br />
-      <br />
-
-
-
-    </>
-  );
-
-}
-
-export default Data;

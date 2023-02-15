@@ -4,13 +4,14 @@ import Papa from "papaparse";
 import { useState  } from "react";
 const Datainput = () => {
 
-  const [parsedData, setParsedData] = useState([]);
 
   //State to store table Column name
   const [tableRows, setTableRows] = useState([]);
-
+  const [parsedData, setParsedData] = useState([]);
   //State to store the values
   const [values, setValues] = useState([]);
+
+
   const changeHandler = (event) => {
     // Passing file data (event.target.files[0]) to parse using Papa.parse
     Papa.parse(event.target.files[0], {
@@ -37,9 +38,12 @@ const Datainput = () => {
       },
     });
   };
-    return (
-        <>
-            <div className="csv">
+
+
+ return (
+
+<>
+        <div className="csv">
         <label>Enter data by uploading a CSV file:</label>
         <br />
         <br />
@@ -48,38 +52,14 @@ const Datainput = () => {
           type="file"
           name="file"
           className="file_upload"
-          
+          onClick={() => setShow(prev => !prev)}
           onChange={changeHandler}
           accept=".csv"
         />
       </div>
-<div>
-        {/* Table */}
-        <table>
-          <thead>
-            <tr>
-              {tableRows.map((rows, index) => {
-                return <th key={index}>{rows}</th>;
-              })}
-            </tr>
-          </thead>
-          <tbody>
-            {values.map((value, index) => {
-              return (
-                <tr key={index}>
-                  {value.map((val, i) => {
-                    return <td key={i}>{val}</td>;
-                  })}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
 
-   
 
-        </>
-    );
+
+</>)
 }
 export default Datainput;
