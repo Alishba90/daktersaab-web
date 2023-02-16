@@ -8,67 +8,82 @@ const Login=()=>{
 const location=useLocation();
 let navigate = useNavigate();
 let {data} =location.state;
-let showbranch=false;
+
 
 const [user, setuser]=useState(
 {
   name:'',
   branch:'',
   password:'',
-  org:location.state
+  org:location.state.data
 }
 )
+const [hospitalbranches,setbranches]=useState();
+
 const handleinputs=(e)=>{
       setuser({
             ...user,
             [e.target.name]: e.target.value
           });
       if(e.target.name==='name'){
-        let api=('http://localhost:5000/api/hospital/branch/'+ e.target.name).toString()
+        
+        let api=('http://localhost:5000/api/hospital/branch/'+ e.target.value).toString()
           try{
-            fetch(api,{ method:'GET' , headers:{'Content-Type': 'application/json'}}).then(res =>
-                  {if(res.status===200){
-                  
+fetch(api)
+      .then(response => response.json()) // get response, convert to json
+      .then(json => {
 
 
-                  }}
-                )
-              }catch(err){console.log("error in requesting branches information", err)}
+
+setbranches(json.branches);
+
+
+      })
+              }catch(err){console.log("error in requesting branches information", err);
+              setbranches();
+              
+
+}
 
 
 }
 }
             
-const Register=()=>{
-    if(location.state==='blood'){navigate('./blood',{state:{data:"signup"}})}
-    else if (location.state==='pharmacy'){navigate('./pharmacy',{state:{data:"signup"}})}
-    else{ navigate('./hospital',{state:{data:"signup"}}) }
+const Register=(e)=>{
+    e.preventDefault()
+    
+    if(location.state.data==='blood'){navigate('/blood',{state:{data:"signup"}})}
+    else if (location.state.data==='pharmacy'){navigate('/pharmacy',{state:{data:"signup"}})}
+    else if (location.state.data==='hospital'){ navigate('/hospital',{state:{data:"signup"}}) }
+    
 }
 
 const SignIn =(e)=>{
-    if(user.name=''){document.getElementById('errorstatus').innerHTML="Name cannot be empty"}
-    else if (user.password=''){document.getElementById('errorstatus').innerHTML="Please enter your password"}
+    
+    if(user.name===''){document.getElementById('errorstatus').innerHTML="Name cannot be empty";}
+    else if (user.password===''){document.getElementById('errorstatus').innerHTML="Please enter your password"}
     else{
       e.preventDefault();
+      console.log("the info is ",user)
       try{
-          let api ='http://localhost:5000/api/login'
-          fetch(api, {
+          
+          fetch('http://localhost:5000/api/login/user/', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify(user)
-          }).then(res => {
-            if (res.status === 200){
-                console.log(res.data); 
-                navigate(('./'+location.state));
+          }).then(response => response.json())
+            .then(json=>{
+            document.getElementById('errorstatus').innerHTML=json.error;
+            if (!json.error){
+                
+                document.getElementById('errorstatus').innerHTML='';console.log(json.user)
+                navigate('../'+location.state.data,{state:{data:'displaydata',info:json.user}});
                 
             }
-            else if(res.status===430){}
 
-            else{console.log("error in sending data", res.data)}
-
-            });
+})
        }catch(err){console.log(err);}
 
 
@@ -82,20 +97,28 @@ return(
 <h1>Authorize yourself as a {data}</h1>
 
 <br/>
-<h3 id ="errorstatus">Credentials are invalid </h3>
+<h3 id ="errorstatus"></h3>
 <div>
 <form  onSubmit={SignIn}>
 <div>
 <label>Name:
 </label>
-<input type="text" name='name' onChange={handleinputs}/>
-{showbranch && <input type="radio" value="Male" name="gender" />}
+<input type="text" name='name' value={user.name} onChange={handleinputs}/>
+{hospitalbranches &&
+<>
+{hospitalbranches.map((element, index) => {
+  return <div><input type="radio" key={index} id={index} name='branch' value={element} onChange={handleinputs}/><label htmlFor={index}>{element}</label></div>
+
+})}
+</>
+}
+
 
 </div>
 <div>
 <label>Password:
 </label>
-<input type="password" name='password' onChange={handleinputs}/>
+<input type="password" name='password' value={user.password} onChange={handleinputs}/>
 </div>
 
 <button type="submit"  id="submitbtn">Sign In</button><br/>

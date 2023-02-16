@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Papa from "papaparse";
-import { useState , useLocation } from 'react';
-
-import { useNavigate} from "react-router-dom";
+import { useState  } from 'react';
+import Datadisplay from "./components/datadisplay";
+import { useNavigate, useLocation} from "react-router-dom";
 import validator from "validator";
-import { Button } from "bootstrap";
+
 
 const Hospital=()=>{
 
@@ -13,68 +13,71 @@ let navigate = useNavigate();
 let location = useLocation();
 
 let {state}=location.state;
+const items = [
+    'Cardiology','Oncology','Pediatrics','Obstetrics and Gynecology','Pulmonology','Physical Therapy','Nutrition and Dietetics','Rheumatology','Gastroenterology','Psychiatric','Endocrinology','Neurology','Nephrology','ENT',"Dentistry"
+];
+useEffect(()=>{
 
-let signup ,edit, data, displaydata=false;
 
-if (state==='signup'){signup=true; }
-else if (state==='data'){data=true;}
-else {displaydata=true;}
+if (location.state.data==='signup'){setsignup(true); }
+else if (location.state.data==='data'){setdata(true);}
+else {setdisplaydata(true);
+
+setformValue({
+    email: location.state.info.Email,
+    password: '',
+    location:location.state.info.Location,
+    name:location.state.info.Name,
+    phone1:location.state.info.Phone1,
+    phone2:location.state.info.Phone2,
+    timings:{
+    open:location.state.info.Time.Open,
+    close:location.state.info.Time.Close},
+    department:location.state.info.Department
+  })
+}
+location.state.data=''
+},[])
+
 
 
 const [eValid,setevalid]=useState();
 const [pValid,setpvalid]=useState();
 
 const [hosexist,sethospitalexist]=useState(false)
-const days=["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]
-
+const [signup,setsignup]=useState(false)
+const [edit,setedit]=useState(false)
+const [data,setdata]=useState(false)
+const [displaydata,setdisplaydata]=useState(false)
+console.log(location.state.info)
 const [formValue, setformValue] = React.useState({
-    email: '',
+    email:'',
     password: '',
-    location:"",
-    name:"",
+    location:'',
+    name:'',
     phone1:'',
     phone2:'',
-    timings:[{
-    "day":"",
-    "open":"",
-    "close":""}]
+    timings:{
+    open:'',
+    close:''},
+    department:[]
   });
 
-let timings=[{
-    "day":"",
-    "open":"",
-    "close":""
-}]
+
 
 function handleUserInput(e){
 
-if(!(days.includes(e.target.name))){
+if(!(e.target.name==='time')){
 setformValue({
       ...formValue,
       [e.target.name]: e.target.value
     });
 }
 else{
+setformValue(formstate=>({...formstate,timings:{...formstate.timings,[e.target.id] : e.target.value}}))
 
-const d = timings.map(({ day }) => day);
-    if(d.includes(e.target.name)||d.length==0||d==null){
-    timings['day']=e.target.name;
-    if(e.target.className==="open"){
-        timings['open']=e.target.value;
-}
-    else{
-        timings['close']=e.target.value;
-}
-    }
-    else { 
-var open , close =null;
-if(e.target.className==="open"){
-        open = e.target.value;}
-else {
 
-        close= e.target.value;}
 
-timings.push({'day':e.target.name,'open':open,'close':close})}
 }
 
 if(e.target.name==='email'){
@@ -94,16 +97,25 @@ if(e.target.name==='password'){
 
 }
 
-const submitForm = async(e)=>{
+const submitRegisterForm = async(e)=>{
 
             e.preventDefault();
 
-console.log(timings)
-            
-  setformValue({
+        let checkedbox=[];
+        var val=document.getElementsByClassName('department')
+        for(var i =0 ;i<items.length;i++){
+
+        
+        
+                    if(val[i].checked===true){
+                        checkedbox.push(val[i].value)
+        }}
+        console.log(checkedbox)
+        if(checkedbox.length>1){
+        setformValue({
       ...formValue,
-      [timings]: timings
-    })
+      department: checkedbox
+    });
 
             try{
       fetch('http://localhost:5000/api/hospital/add', {
@@ -116,13 +128,25 @@ console.log(timings)
                 
 
       .then(res => {
-if (res.status === 200){console.log(res.data); sethospitalexist(false); signup=false ; data=true}
+if (res.status === 200){
+ sethospitalexist(false); 
+setsignup(false)
+setdata(true)
+
+
+}
 else if(res.status===430){sethospitalexist(true)}
 
 else{console.log("error in sending data", res.data)}
 
 });
 }catch(err){console.log(err);}}
+else{
+document.getElementById('error').innerHTML='Please select some department'
+}
+
+
+}
 
 //State to store table Column name
 const [tableRows, setTableRows] = useState([]);
@@ -153,7 +177,7 @@ const changeHandler = (event) => {
         setValues(valuesArray);
       },
     });
-edit=true;
+setedit(true);
   };
 
 const editing =(e)=>{
@@ -176,7 +200,7 @@ try{
                 
 
       .then(res => {
-if (res.status === 200){console.log(res.data); sethospitalexist(false); signup=false ; data=true}
+if (res.status === 200){console.log(res.data); sethospitalexist(false); setsignup(false) ; setdata(true)}
 else if(res.status===430){sethospitalexist(true)}
 
 else{console.log("error in sending data", res.data)}
@@ -185,16 +209,37 @@ else{console.log("error in sending data", res.data)}
 }catch(err){console.log(err);}        
 
 }
+
+const  createCheckbox = label => (<>
+    <input type='checkbox'
+            label={label}
+            value={label}
+            id={label}
+            className='department'
+            key={label}
+        />
+<label htmlFor={label}>{label}</label><br/>
+</>
+  )
+const createDepartments=()=>{
+return(
+items.map(createCheckbox)
+)
+}
+
 return(
     <>
 
 {hosexist &&
-<h1>Hospital already exists</h1>
+<h1 >Hospital already exists</h1>
 }
 
+{displaydata||data &&
+<Datadisplay Name={formValue.name} Location ={formValue.location} Phone1={formValue.phone1} Phone2={formValue.phone2} Email={formValue.email}/>
+}
 
 {signup &&
-<form  id="hospitaldata" onSubmit={submitForm}>
+<form  id="hospitaldata" onSubmit={submitRegisterForm}>
 
         <label>
             Hospital Name:
@@ -233,67 +278,26 @@ return(
         <label>
             Phone /Telephone 2:
             <input type="tel" name="phone2" minLength={13} value={formValue.phone2} onChange={handleUserInput} />
-        </label><br/>
+        </label><br/><hr/>
         <label>
             For hospitals not operating 24/7 please enter opening and closing timings for each day:<br/>
 
         </label><br/>
         <label>
-        Monday:           
+                 
             Open:
-            <input type="time" name="monday" className="open" onChange={handleUserInput}/><br/>
+            <input type="time" name="time" id="open" onChange={handleUserInput}/>
             Close:
-            <input type="time" name="monday" className="close" onChange={handleUserInput}/><br/>
+            <input type="time" name="time" id="close" onChange={handleUserInput}/><br/>
 
         </label><br/>
-        <label>
-        Tuesday:
-           Open:
-            <input type="time" name="tuesday" className="open" onChange={handleUserInput}/><br/>
-            Close:
-            <input type="time" name="tuesday" className="close" onChange={handleUserInput}/><br/>
 
-        </label><br/>
-        <label>
-        Wednesday:
-            Open:
-            <input type="time" name="wednesday" className="open" onChange={handleUserInput}/><br/>
-            Close:
-            <input type="time" name="wednesday" className="close" onChange={handleUserInput}/><br/>
+        <hr/>
+<h1 id ='error'></h1>
+   <label>Please select the departments you have in your organization</label><br/>
+{createDepartments()}
 
-        </label><br/>
-        <label>
-        Thursday:
-            Open:
-            <input type="time" name="thursday" className="open" onChange={handleUserInput}/><br/>
-            Close:
-            <input type="time" name="thursday" className="close" onChange={handleUserInput}/><br/>
-
-        </label><br/>
-        <label>
-        Friday:
-            Open:
-            <input type="time" name="friday" className="open" onChange={handleUserInput}/><br/>
-            Close:
-            <input type="time" name="friday" className="close" onChange={handleUserInput}/><br/>
-
-        </label><br/>
-        <label>
-        Saturday:
-            Open:
-            <input type="time" name="saturday" className="open" onChange={handleUserInput}/><br/>
-            Close:
-            <input type="time" name="saturday" className="close" onChange={handleUserInput}/><br/>
-
-        </label><br/>
-        <label>
-        Sunday:
-           Open:
-            <input type="time" name="sunday" className="open" onChange={handleUserInput}/><br/>
-            Close:
-            <input type="time" name="sunday" className="close" onChange={handleUserInput}/><br/>
-
-        </label><br/>
+        
 
 <button type="submit" className="btn btn-primary"  id="submitbtn">Sign up</button>
 </form>
@@ -302,20 +306,11 @@ return(
 {data &&
 
 <>
-<div className="csv">
-        <label>Enter data by uploading a CSV file:</label>
-        <br />
-        <br />
-        {/* File Uploader */}
-        <input
-          type="file"
-          name="file"
-          className="file_upload uploads"
-          onChange={changeHandler}
-          accept=".csv"
+<hr/>
+<div >
 
-        >Upload File</input>
 </div>
+<hr/>
 
 {edit &&
 
@@ -341,7 +336,7 @@ return(
 
 </tbody>
 </table>
-<Button onClick={submitDoctors}>Confirm and Proceed</Button>
+<input type="button" onClick={submitDoctors} value="Confirm and Proceed"/>
 </div>
 }
 </>
