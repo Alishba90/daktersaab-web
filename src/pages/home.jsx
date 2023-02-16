@@ -30,8 +30,6 @@ const Home = () => {
   }
 
 
-const [change,setvalue]=useState('abc')
-const valuechange=(e)=>{setvalue(e.target.value)}
   return (
     <>
       <div className='main1'>
@@ -40,7 +38,7 @@ const valuechange=(e)=>{setvalue(e.target.value)}
           <h1>Dakter Saab ~
           </h1>
           <h3> Search, Find, and Book at one tap!</h3>
-          <input type="text" value={change} onChange={valuechange}/>
+         
           {/* Buttons */}
           <div className='reg'>
             <button type="button" className="reg-btn "  onClick={hospital}>Hospital</button>

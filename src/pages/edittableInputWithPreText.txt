@@ -1,0 +1,7 @@
+
+const [change,setvalue]=useState('abc')
+const valuechange=(e)=>{setvalue(e.target.value)}
+
+and after return 
+-----------
+ <input type="text" value={change} onChange={valuechange}/>

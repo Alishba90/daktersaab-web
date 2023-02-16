@@ -132,7 +132,7 @@ if (res.status === 200){
  sethospitalexist(false); 
 setsignup(false)
 setdata(true)
-
+document.getElementById('hospitalname').innerHTML=formValue.name;
 
 }
 else if(res.status===430){sethospitalexist(true)}
@@ -229,12 +229,12 @@ items.map(createCheckbox)
 
 return(
     <>
-
+<h1 id='hospitalname'></h1>
 {hosexist &&
 <h1 >Hospital already exists</h1>
 }
 
-{displaydata||data &&
+{displaydata &&
 <Datadisplay Name={formValue.name} Location ={formValue.location} Phone1={formValue.phone1} Phone2={formValue.phone2} Email={formValue.email}/>
 }
 
@@ -308,7 +308,18 @@ return(
 <>
 <hr/>
 <div >
+{formValue.department.map((rows,index)=>{
+return(
+<div>       
+        
+<hr/>
+<label >{rows} Department </label>
+<label>Password: </label><input type='password' name='depPass'/>
 
+<hr/>
+</div>
+)})
+}
 </div>
 <hr/>
 
