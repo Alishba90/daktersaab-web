@@ -20,7 +20,6 @@ useEffect(()=>{
 
 
 if (location.state.data==='signup'){setsignup(true); }
-else if (location.state.data==='data'){setdata(true);}
 else {setdisplaydata(true);
 
 setformValue({
@@ -46,10 +45,9 @@ const [pValid,setpvalid]=useState();
 
 const [hosexist,sethospitalexist]=useState(false)
 const [signup,setsignup]=useState(false)
-const [edit,setedit]=useState(false)
-const [data,setdata]=useState(false)
 const [displaydata,setdisplaydata]=useState(false)
-console.log(location.state.info)
+
+
 const [formValue, setformValue] = React.useState({
     email:'',
     password: '',
@@ -67,35 +65,29 @@ const [formValue, setformValue] = React.useState({
 
 function handleUserInput(e){
 
-if(!(e.target.name==='time')){
-setformValue({
-      ...formValue,
-      [e.target.name]: e.target.value
-    });
-}
-else{
-setformValue(formstate=>({...formstate,timings:{...formstate.timings,[e.target.id] : e.target.value}}))
+    if(!(e.target.name==='time')){
+    setformValue({
+        ...formValue,
+        [e.target.name]: e.target.value
+        });
+    }
+    else{setformValue(formstate=>({...formstate,timings:{...formstate.timings,[e.target.id] : e.target.value}}))}
 
+    if(e.target.name==='email'){
+            if(!validator.isEmail(e.target.value)){
+                    setevalid(1)
+                }
+            else{setevalid(null)}}
 
+    else if(e.target.name==='password'){
 
-}
-
-if(e.target.name==='email'){
-        if(!validator.isEmail(e.target.value)){
-                setevalid(1)
+            if(!(e.target.value.length >7))
+            {
+            setpvalid(1)
             }
-        else{setevalid(null)}}
-
-if(e.target.name==='password'){
-
-        if(!(e.target.value.length >7))
-          {
-          setpvalid(1)
-          }
-        else{setpvalid(null)}}
-
-
+            else{setpvalid(null)}}
 }
+
 
 const submitRegisterForm = async(e)=>{
 
@@ -105,110 +97,40 @@ const submitRegisterForm = async(e)=>{
         var val=document.getElementsByClassName('department')
         for(var i =0 ;i<items.length;i++){
 
-        
-        
-                    if(val[i].checked===true){
-                        checkedbox.push(val[i].value)
-        }}
+            if(val[i].checked===true){
+                checkedbox.push(val[i].value)
+            }
+        }
         console.log(checkedbox)
         if(checkedbox.length>1){
         setformValue({
-      ...formValue,
-      department: checkedbox
-    });
-
-            try{
-      fetch('http://localhost:5000/api/hospital/add', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formValue)
-      })
-                
-
-      .then(res => {
-if (res.status === 200){
- sethospitalexist(false); 
-setsignup(false)
-setdata(true)
-document.getElementById('hospitalname').innerHTML=formValue.name;
-
-}
-else if(res.status===430){sethospitalexist(true)}
-
-else{console.log("error in sending data", res.data)}
-
-});
-}catch(err){console.log(err);}}
-else{
-document.getElementById('error').innerHTML='Please select some department'
-}
-
-
-}
-
-//State to store table Column name
-const [tableRows, setTableRows] = useState([]);
-
-//State to store the values
-const [values, setValues] = useState([]);
-
-
-const changeHandler = (event) => {
-    // Passing file data (event.target.files[0]) to parse using Papa.parse
-    Papa.parse(event.target.files[0], {
-      header: true,
-      skipEmptyLines: true,
-      complete: function (results) {
-        const rowsArray = [];
-        const valuesArray = [];
-
-        // Iterating data to get column name and their values
-        results.data.map((d) => {
-          rowsArray.push(Object.keys(d));
-          valuesArray.push(Object.values(d));
+            ...formValue,
+            department: checkedbox
         });
 
-        // Filtered Column Names
-        setTableRows(rowsArray[0]);
+        try{
+          fetch('http://localhost:5000/api/hospital/add', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formValue)
+            }).then(res => {
+        if (res.status === 200){
+                sethospitalexist(false); 
+                setsignup(false)
+                document.getElementById('hospitalname').innerHTML=formValue.name;
+                navigate('/department',{state:{Name:formValue.name ,Branch:formValue.location , Department:formValue.department,register:true}})
+        }
+        else if(res.status===430){sethospitalexist(true)}
 
-        // Filtered Values
-        setValues(valuesArray);
-      },
-    });
-setedit(true);
-  };
-
-const editing =(e)=>{
-
-        let v=values;
-        v[e.target.id][e.target.name]=e.target.value;
-        setValues(v);
-
-}
-
-const submitDoctors=(e)=>{
-try{
-      fetch('http://localhost:5000/api/doctor/addDr/'+formValue.name+'/'+formValue.location, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formValue)
-      })
-                
-
-      .then(res => {
-if (res.status === 200){console.log(res.data); sethospitalexist(false); setsignup(false) ; setdata(true)}
-else if(res.status===430){sethospitalexist(true)}
-
-else{console.log("error in sending data", res.data)}
-
-});
-}catch(err){console.log(err);}        
+        else{console.log("error in sending data", res.data)}
+        });
+    }catch(err){console.log(err);}}
+    else{document.getElementById('error').innerHTML='Please select some department';}
 
 }
+
 
 const  createCheckbox = label => (<>
     <input type='checkbox'
@@ -218,17 +140,35 @@ const  createCheckbox = label => (<>
             className='department'
             key={label}
         />
-<label htmlFor={label}>{label}</label><br/>
-</>
+    <label htmlFor={label}>{label}</label><br/>
+    </>
   )
 const createDepartments=()=>{
-return(
-items.map(createCheckbox)
-)
+        return(
+        items.map(createCheckbox)
+        )
+}
+
+const logout=(e)=>{
+    e.preventDefault()
+    setformValue({
+    email:'',
+    password: '',
+    location:'',
+    name:'',
+    phone1:'',
+    phone2:'',
+    timings:{
+    open:'',
+    close:''},
+    department:[]
+  })
+    navigate('/home');
 }
 
 return(
     <>
+<input type='button' value='Logout' id='logoutbtn' onClick={logout}/>
 <h1 id='hospitalname'></h1>
 {hosexist &&
 <h1 >Hospital already exists</h1>
@@ -303,59 +243,9 @@ return(
 </form>
 }
 
-{data &&
 
-<>
-<hr/>
-<div >
-{formValue.department.map((rows,index)=>{
-return(
-<div>       
-        
-<hr/>
-<label >{rows} Department </label>
-<label>Password: </label><input type='password' name='depPass'/>
-
-<hr/>
-</div>
-)})
-}
-</div>
-<hr/>
-
-{edit &&
-
-<div>
-<table>
-<thead>
-            <tr>
-              {tableRows.map((rows, index) => {
-                return <th key={index}>{rows}</th>;
-              })}
-            </tr>
-          </thead>
-<tbody>
-            {values.map((value, index) => {
-              return (
-                <tr key={index}>
-                  {value.map((val, i) => {
-                    return <td key={i}><input className="editInput" value={val} id={index} name={i} onChange={editing}/></td>;
-                  })}
-                </tr>
-              );
-            })}
-
-</tbody>
-</table>
-<input type="button" onClick={submitDoctors} value="Confirm and Proceed"/>
-</div>
-}
 </>
-}
-
-    </>
   
-    )
-  }
+)}
 
 export default Hospital

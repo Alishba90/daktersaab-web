@@ -46,8 +46,7 @@ setbranches(json.branches);
 }
 
 
-}
-}
+}}
             
 const Register=(e)=>{
     e.preventDefault()
@@ -77,7 +76,12 @@ const SignIn =(e)=>{
             .then(json=>{
             document.getElementById('errorstatus').innerHTML=json.error;
             if (!json.error){
-                
+                setuser({
+                    name:'',
+                    branch:'',
+                    password:'',
+                    org:location.state.data
+                })
                 document.getElementById('errorstatus').innerHTML='';console.log(json.user)
                 navigate('../'+location.state.data,{state:{data:'displaydata',info:json.user}});
                 

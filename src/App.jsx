@@ -8,6 +8,7 @@ import Pharmacy from './pages/pharmacy';
 import Navbar from './pages/components/navbar';
 import Login from './pages/login';
 import About from './pages/about';
+import Department from './pages/department';
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle"
 
@@ -24,6 +25,7 @@ const App=()=>{
     <Route exact path = "/pharmacy" element ={<Pharmacy/>}/>
     <Route exact path='/hospital' element= {<Hospital/>}/>
     <Route exact path='/login' element= {<Login/>}/>
+    <Route exact path='/department' element={<Department/>}/>
     </Routes>
 
     </>
