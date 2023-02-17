@@ -34,6 +34,7 @@ setformValue({
     close:location.state.info.Time.Close},
     department:location.state.info.Department
   })
+
 }
 location.state.data=''
 },[])
@@ -120,7 +121,7 @@ const submitRegisterForm = async(e)=>{
                 sethospitalexist(false); 
                 setsignup(false)
                 document.getElementById('hospitalname').innerHTML=formValue.name;
-                navigate('/department',{state:{Name:formValue.name ,Branch:formValue.location , Department:formValue.department,register:true}})
+                navigate('/department',{state:{Name:formValue.name ,Location:formValue.location , Department:formValue.department,register:true}})
         }
         else if(res.status===430){sethospitalexist(true)}
 
@@ -175,7 +176,16 @@ return(
 }
 
 {displaydata &&
+<>
 <Datadisplay Name={formValue.name} Location ={formValue.location} Phone1={formValue.phone1} Phone2={formValue.phone2} Email={formValue.email}/>
+
+{formValue.map((item, index)=>{
+
+<input type='button' name="departmentView" value={item} key={index} id={item} />
+
+})}
+
+</>
 }
 
 {signup &&
