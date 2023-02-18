@@ -1,77 +1,73 @@
-.nav{
-  background-color: aquamarine;
-}
-.heading{
-  padding-top: 6rem;
-  padding-left: 6rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-*{
-  text-align:justify
-}
 
-
-.main{
-  background-color: rgba(223, 231, 228, 0.71);
-  height: 100%;
-  width: 100%;
-  position:absolute;
-  top: 0;
-}
-.popup{
-  height: 260px;
-  width: 50%;
-  background-color: rgb(138, 184, 177);
-  position: absolute;
-  top: 25%;
-  right: 25%;
-}
-.popup-header{
+.homebodycontainer {
+  background-image: url('./images/nbg.jpg');
+  background-attachment: fixed;
+    background-position: cover;
+    height: 100vh;
   display: flex;
-  justify-content: space-between;
-  padding-top: 2rem;
-  padding-left: 2rem;
- 
+  align-items: center;
+  justify-content: center;
 }
 
-.btn1{
-  margin-top:4rem;
-  margin-left: 7rem;
- 
-}
-.btn2{
-  margin-top:4rem;
-  margin-left: 5rem;
-}
-.btn3{
-  margin-top:4rem;
-  margin-left: 5rem;
-}
-.intro{
-  padding-top: 8rem;
-  padding-left: 10rem;
+.homecontainer1 {
+  position: absolute;
+  top: 90px;
+  width: 70%;
+  height: 80vh;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgba(255, 255, 255, 0.2);
+
+  backdrop-filter: blur(20px) saturate(100%);
+  box-shadow: 0 8px 32px 0 rgba(116, 121, 193, 0.37);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
 }
 
-.reg-btn{
-  margin-left: 40rem;
-  width: 15rem;
-  height: 4rem;
-  background-color: transparent;
-  border-color: cadetblue;
+.imgcontainer {
+  width: 40%;
+  background-image: url('images/bg2.jpg');
+  background-size: cover;
+  background-position: center;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
 }
-.update-btn{
-  margin-left: 40rem;
-  margin-top: 2rem;
-  width: 15rem;
-  height: 4rem;
-  background-color: transparent;
-  border-color: cadetblue;
+
+.buttonscontainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(105, 82, 146, 0.2);
+  width: 60%;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
-.contact-btn{
-  margin-left: 40rem;
-  margin-top: 2rem;
-  width: 15rem;
+
+.buttondiv {
+  margin: 5px;
+}
+
+.h-btn {
+  /* margin-left: 40rem; */
+  width: 12rem;
   height: 4rem;
   background-color: transparent;
-  border-color: cadetblue;
+  border-color: rgb(122, 84, 176);
+  cursor: pointer;
+  transition: 0.4s ease-in all;
+  font-size: 16px;
+  font-style: bold;
+  border-radius: 10px;
+}
+
+.h-btn:hover {
+  background-color: rgb(107, 88, 176);
+  color: white;
 }

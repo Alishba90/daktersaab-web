@@ -98,8 +98,8 @@ const Login = () => {
       <div class="container1">
 
         <div class="headcontainer">
-          <h1 class='Heading'>Welcome</h1>
-          <p class='line'>Authorize yourself as a {data}</p>
+          <h1 class='welheading'>Welcome</h1>
+          <p class='subhead'>Authorize yourself as a {data}</p>
 
           <div>
           <p class='regline'> Not registered yet? Register Yourself</p>

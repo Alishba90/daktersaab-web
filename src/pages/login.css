@@ -1,3 +1,6 @@
+*{
+    font-family: 'Times New Roman', Times, serif;
+}
 body {
     overflow: hidden;
 }
@@ -5,26 +8,21 @@ body {
     background-image: url('images/nbg.jpg');
     background-attachment: fixed;
     background-position: cover;
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: fixed;
-    /* top: 0; */
-    left: 0;
-    right: 0;
-    /* bottom: 0; */
-    font-family: 'Times New Roman', Times, serif;
-}
+    }
 
 .container1 {
+    position: absolute;
+    top: 90px;
     width: 70%;
     height: 80vh;
     margin-left: auto;
     margin-right: auto;
     background-color: rgba(202, 202, 219, 0.5);
     backdrop-filter: blur(20px) saturate(100%);
-    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); */
     box-shadow: 0 8px 32px 0 rgba(116, 121, 193, 0.37);
     border-radius: 20px;
     display: flex;
@@ -33,31 +31,18 @@ body {
 }
 
 .headcontainer {
-    /* background-color: rgb(91, 91, 210); */
     width: 40%;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding-left: 50px;
+    padding-right: 50px;
 }
-.line{
+.subhead {
     font-size: 20px;
     font-weight: bold;
 }
-
-
-/* .imgcontainer {
-    width: 40%;
-    background-image: url('images/bg2.jpg');
-    background-size: cover;
-    background-position: center;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 20px;
-} */
 
 .formcontainer {
     display: flex;
@@ -68,21 +53,20 @@ body {
     width: 60%;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .labeldiv {
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
-    
 }
-
 .labelh {
     font-size: 16px;
     font-weight: bold;
     /* margin-bottom: 6px; */
 }
-
 .inputf {
     border: none;
     border-radius: 5px;
@@ -91,28 +75,24 @@ body {
     color: black;
     transition: all 0.3s ease;
     font-size: 16px;
-    width: 350px;
+    width: 100%;
     flex-wrap: wrap;
 }
-
 .faicon {
     font-size: 16px;
     color: rgb(79, 23, 129);
     margin-right: 5px;
 }
-
 .inputf:focus {
     outline: none;
     box-shadow: 0 0 5px #2d2d2d;
 }
-
 .radiobtn {
     margin-left: 20px;
     display: flex;
     /* justify-content: center; */
     align-items: center;
 }
-
 .radiobtn input[type="radio"] {
     margin-right: 8px;
     /* font-size: 40px; */
@@ -120,53 +100,47 @@ body {
     height: 16px;
     cursor: pointer;
 }
-
 .radiobtn label {
     font-size: 16px;
     cursor: pointer;
     color: black;
     transition: all 0.3s ease;
 }
-
 .radiobtn label:hover {
     color: rgb(85, 21, 128);
 }
 
-.fplink{
+.fplink {
     text-align: right;
     text-decoration: none;
     color: blueviolet;
 }
-.errormsg{
+
+.errormsg {
     color: red;
     text-align: center;
 }
 
-  .buttons{
+.buttons {
     background-color: rgb(144, 127, 255);
     color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  text-align: center;
-  }
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 20px;
+}
 
-  .buttonr{
-    background-color: rgb(41, 32, 218);
+.buttonr {
+    background-color: rgb(143, 83, 186);
     color: white;
-  border: none;
-  border-radius: 15px;
-  padding: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  text-align: center;
-  width: 30%;
-  }
-
-  
-
- 
-  
-
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    /* width: 30%; */
+}

@@ -216,7 +216,6 @@ return(
 <h5 >Password should be of atleast 8 characters</h5>
 }
 <br/>
-
         <label>
             Contact:
         </label><br/>
