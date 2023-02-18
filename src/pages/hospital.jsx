@@ -17,6 +17,18 @@ const Hospital = () => {
     const items = [
         'Cardiology', 'Oncology', 'Pediatrics', 'Obstetrics and Gynecology', 'Pulmonology', 'Physical Therapy', 'Nutrition and Dietetics', 'Rheumatology', 'Gastroenterology', 'Psychiatric', 'Endocrinology', 'Neurology', 'Nephrology', 'ENT', "Dentistry"
     ];
+
+    const [formValue, setformValue] = React.useState({
+        email: '',
+        password: '',
+        location: '',
+        name: '',
+        phone1: '',
+        phone2: '',
+        timings: { open: '', close: '' },
+        department: []
+    });
+
     useEffect(() => {
         if (location.state.data === 'signup') { setsignup(true); }
         else {
@@ -49,16 +61,6 @@ const Hospital = () => {
     const [signup, setsignup] = useState(false)
     const [displaydata, setdisplaydata] = useState(false)
 
-    const [formValue, setformValue] = React.useState({
-        email: '',
-        password: '',
-        location: '',
-        name: '',
-        phone1: '',
-        phone2: '',
-        timings: { open: '', close: '' },
-        department: []
-    });
 
     function handleUserInput(e) {
         if (!(e.target.name === 'time')) {
@@ -99,6 +101,7 @@ const Hospital = () => {
         if (checkedbox.length > 1) {
             dataset['department'] = checkedbox
             try {
+
                 fetch('http://localhost:5000/api/hospital/add', {
                     method: 'POST',
                     headers: {

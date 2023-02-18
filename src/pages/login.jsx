@@ -32,6 +32,7 @@ const Login = () => {
         "http://localhost:5000/api/hospital/branch/" + e.target.value
       ).toString();
       try {
+console.log(e.target.value)
         fetch(api)
           .then((response) => response.json()) // get response, convert to json
           .then((json) => {
