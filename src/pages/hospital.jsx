@@ -4,6 +4,7 @@ import { useState  } from 'react';
 import Datadisplay from "./components/datadisplay";
 import { useNavigate, useLocation} from "react-router-dom";
 import validator from "validator";
+import { data } from "jquery";
 
 
 const Hospital=()=>{
@@ -97,7 +98,7 @@ function handleUserInput(e){
 
 
 const submitRegisterForm = async(e)=>{
-
+        const dataset=formValue
             e.preventDefault();
 
         let checkedbox=[];
@@ -108,12 +109,12 @@ const submitRegisterForm = async(e)=>{
                 checkedbox.push(val[i].value)
             }
         }
-        console.log(checkedbox)
+        
         if(checkedbox.length>1){
-        setformValue({
-            ...formValue,
-            department: checkedbox
-        });
+
+
+        dataset['department']=checkedbox
+        console.log(dataset)
 
         try{
           fetch('http://localhost:5000/api/hospital/add', {
@@ -121,13 +122,14 @@ const submitRegisterForm = async(e)=>{
                 headers: {
                 'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formValue)
+                body: JSON.stringify(dataset)
             }).then(res => {
         if (res.status === 200){
                 sethospitalexist(false); 
                 setsignup(false)
-                document.getElementById('hospitalname').innerHTML=formValue.name;
-                navigate('/department',{state:{Name:formValue.name ,Location:formValue.location , Department:formValue.department,register:true}})
+               
+                alert(dataset.department)
+                navigate('/department',{state:{Name:formValue.name ,Location:formValue.location , Department:dataset.department,register:true}})
         }
         else if(res.status===430){sethospitalexist(true)}
 
@@ -176,7 +178,7 @@ const logout=(e)=>{
 return(
     <>
 <input type='button' value='Logout' id='logoutbtn' onClick={logout}/>
-<h1 id='hospitalname'></h1>
+
 {hosexist &&
 <h1 >Hospital already exists</h1>
 }
