@@ -180,7 +180,8 @@ return (
 return(
 <div key={index} >       
         
-<h1>{"key is" +index +'data is'+rows.deptname}</h1>
+<h1>{name}</h1>
+<h2>{branch}</h2>
 <input value={rows.deptname } name={rows.deptname} id='deptname' style={{width: "30em"}} onChange={changenameinput}/><br/>
 <h1 id="depterror"></h1>
 <button value='delete' onClick={deldepart} className='deleteDep' name={rows.deptname} >Delete</button>
