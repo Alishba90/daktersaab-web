@@ -22,6 +22,12 @@ useEffect(()=>{
 if (location.state.data==='signup'){setsignup(true); }
 else {setdisplaydata(true);
 
+var Open , Close;
+try{
+if(!(location.state.info.Time.Close)||!(location.state.Time.Open)){Open ='';Close='';}
+else{Open=location.state.Time.Open;Close=location.state.info.Time.Close;}
+}
+catch(err){Open ='';Close='';}
 setformValue({
     email: location.state.info.Email,
     password: '',
@@ -30,8 +36,8 @@ setformValue({
     phone1:location.state.info.Phone1,
     phone2:location.state.info.Phone2,
     timings:{
-    open:location.state.info.Time.Open,
-    close:location.state.info.Time.Close},
+    open:Open,
+    close:Close},
     department:location.state.info.Department
   })
 
@@ -164,7 +170,7 @@ const logout=(e)=>{
     close:''},
     department:[]
   })
-    navigate('/home');
+    navigate('/');
 }
 
 return(
@@ -179,7 +185,7 @@ return(
 <>
 <Datadisplay Name={formValue.name} Location ={formValue.location} Phone1={formValue.phone1} Phone2={formValue.phone2} Email={formValue.email}/>
 
-{formValue.map((item, index)=>{
+{formValue.department.map((item, index)=>{
 
 <input type='button' name="departmentView" value={item} key={index} id={item} />
 
