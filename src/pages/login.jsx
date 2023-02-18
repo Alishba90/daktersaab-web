@@ -138,7 +138,7 @@ console.log(e.target.value)
             <div className="labeldiv">
               <label className="labelh"><FontAwesomeIcon className='faicon' icon={faLock} /> Password:</label>
               <input className="inputf" type="password" name="password" value={user.password} onChange={handleinputs} />
-              <a href="#" className='fplink' >Forgot password?</a>
+              <a href="" className='fplink' >Forgot password?</a>
               <button class='buttons' type="submit" id="submitbtn">Sign In</button>
             </div>
 

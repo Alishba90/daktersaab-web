@@ -33,13 +33,16 @@ const Hospital = () => {
         if (location.state.data === 'signup') { setsignup(true); }
         else {
             setdisplaydata(true);
-
+            
+    var f=[];for(var i =0;i<location.state.info.Department.length;i++){f.push(location.state.info.Department[i]['Name'])}
+            
             var Open, Close;
             try {
                 if (!(location.state.info.Time.Close) || !(location.state.Time.Open)) { Open = ''; Close = ''; }
                 else { Open = location.state.Time.Open; Close = location.state.info.Time.Close; }
             }
             catch (err) { Open = ''; Close = ''; }
+
             setformValue({
                 email: location.state.info.Email,
                 password: '',
@@ -48,10 +51,10 @@ const Hospital = () => {
                 phone1: location.state.info.Phone1,
                 phone2: location.state.info.Phone2,
                 timings: { open: Open, close: Close },
-                department: location.state.info.Department
+                department:f
             })
-        }
-        location.state.data = ''
+        }console.log('this',formValue.department);
+       
     }, [])
 
     const [eValid, setevalid] = useState();
@@ -158,6 +161,9 @@ const logout=(e)=>{
     navigate('/');
 }
 
+const deptview=(e)=>{
+    navigate('/department',{state:{register:false,dept:e.target.value}})
+}
     return (
         <div class="regbodycontainer">
             <Navbar />
@@ -166,9 +172,10 @@ const logout=(e)=>{
                 {displaydata &&
                     <div>
                         <Datadisplay Name={formValue.name} Location={formValue.location} Phone1={formValue.phone1} Phone2={formValue.phone2} Email={formValue.email} />
-                        {formValue.department.map((item, index) => {
-                            <input type='button' name="departmentView" value={item} key={index} id={item} />
-                        })}
+                        {formValue.department.map((item, index) => {return(<>
+                            
+                            <button name="departmentView" value={item} key={index} id={item} onClick={deptview}>{item}</button><br/></>
+                        )})}
                         <input className="buttonreg" type='button' value='Logout' id='logoutbtn' onClick={logout} />
                     </div>
                 }
