@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+// import './App.css';
 import Home from './pages/home';
 import Data from './pages/data';
 import Blood from './pages/blood';

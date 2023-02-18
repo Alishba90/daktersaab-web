@@ -1,10 +1,11 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+// import './navbar.css';
 
 const Navbar = () => {
     return (
         <>
-            <div className="container-fluid nav_bg">
+            <div className="navbarbg">
                 <div className="row">
                     <div className="col-20 ms-auto">
                         <nav className="navbar navbar-expand-lg bg-primary">
@@ -21,7 +22,7 @@ const Navbar = () => {
                                         <li className="nav-item">
                                             <NavLink className="nav-link" to="/about">About</NavLink>
                                         </li>
-                                      
+
                                     </ul>
                                 </div>
                             </div>

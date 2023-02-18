@@ -1,147 +1,152 @@
-import { Button } from '@material-ui/core';
-import * as React from 'react';
-import { useState } from 'react';
-import { useNavigate ,useLocation} from "react-router-dom";
+import { Button } from "@material-ui/core";
+import * as React from "react";
+import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import "./login.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser, faHospital, faLock } from '@fortawesome/free-solid-svg-icons'
 
-const Login=()=>{
+const Login = () => {
+  const location = useLocation();
+  let navigate = useNavigate();
+  let { data } = location.state;
 
-const location=useLocation();
-let navigate = useNavigate();
-let {data} =location.state;
+  const [user, setuser] = useState({
+    name: "",
+    branch: "",
+    password: "",
+    org: location.state.data,
+  });
+  const [hospitalbranches, setbranches] = useState();
 
-
-const [user, setuser]=useState(
-{
-  name:'',
-  branch:'',
-  password:'',
-  org:location.state.data
-}
-)
-const [hospitalbranches,setbranches]=useState();
-
-const handleinputs=(e)=>{
-      setuser({
-            ...user,
-            [e.target.name]: e.target.value
+  const handleinputs = (e) => {
+    setuser({
+      ...user,
+      [e.target.name]: e.target.value,
+    });
+    if (e.target.name === "name") {
+      let api = (
+        "http://localhost:5000/api/hospital/branch/" + e.target.value
+      ).toString();
+      try {
+        fetch(api)
+          .then((response) => response.json()) // get response, convert to json
+          .then((json) => {
+            setbranches(json.branches);
           });
-      if(e.target.name==='name'){
-        
-        let api=('http://localhost:5000/api/hospital/branch/'+ e.target.value).toString()
-          try{
-fetch(api)
-      .then(response => response.json()) // get response, convert to json
-      .then(json => {
+      }
+      catch (err) {
+        console.log("error in requesting branches information", err);
+        setbranches();
+      }
+    }
+  };
 
+  const Register = (e) => {
+    e.preventDefault();
 
+    if (location.state.data === "blood") {
+      navigate("/blood", { state: { data: "signup" } });
+    } else if (location.state.data === "pharmacy") {
+      navigate("/pharmacy", { state: { data: "signup" } });
+    } else if (location.state.data === "hospital") {
+      navigate("/hospital", { state: { data: "signup" } });
+    }
+  };
 
-setbranches(json.branches);
-
-
-      })
-              }catch(err){console.log("error in requesting branches information", err);
-              setbranches();
-              
-
-}
-
-
-}}
-            
-const Register=(e)=>{
-    e.preventDefault()
-    
-    if(location.state.data==='blood'){navigate('/blood',{state:{data:"signup"}})}
-    else if (location.state.data==='pharmacy'){navigate('/pharmacy',{state:{data:"signup"}})}
-    else if (location.state.data==='hospital'){ navigate('/hospital',{state:{data:"signup"}}) }
-    
-}
-
-const SignIn =(e)=>{
-    
-    if(user.name===''){document.getElementById('errorstatus').innerHTML="Name cannot be empty";}
-    else if (user.password===''){document.getElementById('errorstatus').innerHTML="Please enter your password"}
-    else{
+  const SignIn = (e) => {
+    if (user.name === "") {
+      document.getElementById("errorstatus").innerHTML = "Name cannot be empty";
+    } else if (user.password === "") {
+      document.getElementById("errorstatus").innerHTML =
+        "Please enter your password";
+    } else {
       e.preventDefault();
-      console.log("the info is ",user)
-      try{
-          
-          fetch('http://localhost:5000/api/login/user/', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(user)
-          }).then(response => response.json())
-            .then(json=>{
-            document.getElementById('errorstatus').innerHTML=json.error;
-            if (!json.error){
-                setuser({
-                    name:'',
-                    branch:'',
-                    password:'',
-                    org:location.state.data
-                })
-                document.getElementById('errorstatus').innerHTML='';console.log(json.user)
-                navigate('../'+location.state.data,{state:{data:'displaydata',info:json.user}});
-                
+      console.log("the info is ", user);
+      try {
+        fetch("http://localhost:5000/api/login/user/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            document.getElementById("errorstatus").innerHTML = json.error;
+            if (!json.error) {
+              setuser({
+                name: "",
+                branch: "",
+                password: "",
+                org: location.state.data,
+              });
+              document.getElementById("errorstatus").innerHTML = "";
+              console.log(json.user);
+              navigate("../" + location.state.data, {
+                state: { data: "displaydata", info: json.user },
+              });
             }
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+  return (
+    <div class="bodycontainer">
+      <div class="container1">
 
-})
-       }catch(err){console.log(err);}
+        <div class="headcontainer">
+          <h1 class='Heading'>Welcome</h1>
+          <p class='line'>Authorize yourself as a {data}</p>
 
+          <div>
+          <p class='regline'> Not registered yet? Register Yourself</p>
+          <button class='buttonr' onClick={Register}>Register</button>
+          </div>
+        </div>
 
-}
+        <div class="formcontainer">
+          <h1 class='Heading'>Sign In</h1>
+          <form onSubmit={SignIn}>
+            <div className="labeldiv">
+              <label className="labelh"><FontAwesomeIcon className='faicon' icon={faUser} /> Name:</label>
+              <input className="inputf" type="text" name="name" value={user.name} onChange={handleinputs} />
+            </div>
 
+            {hospitalbranches && (
+              <div className="labeldiv">
+                <div className="labelh">
+                  <label className="labelh"><FontAwesomeIcon className='faicon' icon={faHospital} /> Select Branch:</label>
+                </div>
+                {hospitalbranches.map((element, index) => {
+                  return (
+                    <div className='radiobtn'>
+                      <input className='radiobtn' type="radio" key={index} id={index} name="branch" value={element} onChange={handleinputs} />
+                      <label htmlFor={index}>{element}</label>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
 
-}
-return(
-<>
+            <div className="labeldiv">
+              <label className="labelh"><FontAwesomeIcon className='faicon' icon={faLock} /> Password:</label>
+              <input className="inputf" type="password" name="password" value={user.password} onChange={handleinputs} />
+              <a href="#" className='fplink' >Forgot password?</a>
+              <button class='buttons' type="submit" id="submitbtn">Sign In</button>
+            </div>
 
-<h1>Authorize yourself as a {data}</h1>
+            <p className='errormsg' id="errorstatus"></p>
 
-<br/>
-<h3 id ="errorstatus"></h3>
-<div>
-<form  onSubmit={SignIn}>
-<div>
-<label>Name:
-</label>
-<input type="text" name='name' value={user.name} onChange={handleinputs}/>
-{hospitalbranches &&
-<>
-{hospitalbranches.map((element, index) => {
-  return <div><input type="radio" key={index} id={index} name='branch' value={element} onChange={handleinputs}/><label htmlFor={index}>{element}</label></div>
+          </form>
 
-})}
-</>
-}
+        </div>
+      </div>
+    </div>
 
+  );
+};
 
-</div>
-<div>
-<label>Password:
-</label>
-<input type="password" name='password' value={user.password} onChange={handleinputs}/>
-</div>
-
-<button type="submit"  id="submitbtn">Sign In</button><br/>
-<a>Forgot password?</a>
-</form>
-</div>
-
-<div>
-<h6>Or Register Yourself with us</h6>
-<Button onClick={Register}>Register</Button>
-</div>
-
-</>
-
-
-
-)
-
-
-}
-
-export default Login
+export default Login;
