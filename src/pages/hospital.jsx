@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import validator from "validator";
 import './hospital.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser, faFlag, faPhone, faHospital, faLock, faKey } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faFlag, faPhone, faHospital, faLock, faKey, faLocation, faTimes, faEnvelope, faClock } from '@fortawesome/free-solid-svg-icons'
 import Navbar from './components/navbar';
 import { data } from "jquery";
 
@@ -155,34 +155,49 @@ const logout=(e)=>{
     navigate('/');
 }
 
-return(
-    <>
-<input type='button' value='Logout' id='logoutbtn' onClick={logout}/>
-
-{hosexist &&
-<h1 >Hospital already exists</h1>
-}
-
-{displaydata &&
-<>
-<Datadisplay Name={formValue.name} Location ={formValue.location} Phone1={formValue.phone1} Phone2={formValue.phone2} Email={formValue.email}/>
-
-{formValue.department.map((item, index)=>{
-
-<input type='button' name="departmentView" value={item} key={index} id={item} />
-
-})}
-
-</>
-}
-
-{signup &&
-<form  id="hospitaldata" onSubmit={submitRegisterForm}>
+    return (
+        <div class="regbodycontainer">
+            <Navbar />
+            <div class="regformcontainer">
+                {hosexist && <h1 >Hospital already exists</h1>}
+                {displaydata &&
+                    <div>
+                        <Datadisplay Name={formValue.name} Location={formValue.location} Phone1={formValue.phone1} Phone2={formValue.phone2} Email={formValue.email} />
+                        {formValue.department.map((item, index) => {
+                            <input type='button' name="departmentView" value={item} key={index} id={item} />
+                        })}
+                        <input className="buttonreg" type='button' value='Logout' id='logoutbtn' onClick={logout} />
+                    </div>
+                }
+                {signup &&
+                    <form className="regformdiv" id="hospitaldata" onSubmit={submitRegisterForm}>
+                        <h1 class='Heading'>Register </h1>
+                        {/* ----div 1---- */}
+                        <div className="div1">
+                            <div className="reglabeldiv">
+                                <label className="reglabelh"><FontAwesomeIcon className='faicon' icon={faHospital} />Hospital Name: </label>
+                                <input className="reginputf" type="text" name="name" required value={formValue.name} onChange={handleUserInput} />
+                            </div>
 
                             <div className="reglabeldiv">
-                                <label className="reglabelh"><FontAwesomeIcon className='faicon' icon={faUser} />Email: </label>
+                                <label className="reglabelh"> <FontAwesomeIcon className='faicon' icon={faLocation} />Hospital Location: </label>
+                                <input className="reginputf" type="text" name="location" required value={formValue.location} onChange={handleUserInput} />
+                            </div>
+
+                            <div className="reglabeldiv">
+                                <label className="reglabelh"> <FontAwesomeIcon className='faicon' icon={faKey} />Password: </label>
+                                <input className="reginputf" type="password" name="password" onChange={handleUserInput} value={formValue.password} />
+                                {pValid && <p className="rerrormsg">Password should be of atleast 8 characters</p>}
+                            </div>
+
+                            <div className="reglabeldiv">
+                                <label className="reglabelh"> Contact Details</label>
+                            </div>
+
+                            <div className="reglabeldiv">
+                                <label className="reglabelh"><FontAwesomeIcon className='faicon' icon={faEnvelope} />Email: </label>
                                 <input className="reginputf" type="text" name="email" onChange={handleUserInput} value={formValue.email} />
-                                {eValid && <p id='emailinvalid'> Email expression is invalid</p>}
+                                {eValid && <p className="rerrormsg" id='emailinvalid'> Email expression is invalid</p>}
                             </div>
 
                             <div className="reglabeldivp">
@@ -196,7 +211,7 @@ return(
                         {/* ---div 2---- */}
                         <div className="div2" >
                             <div className="reglabeldiv">
-                                <label className="reglabelh">
+                                <label className="reglabelh"><FontAwesomeIcon className='faicon' icon={faClock} />
                                     For hospitals not operating 24/7 <br />
                                     Please Enter opening and closing timings for each day:<br />
                                 </label>
@@ -218,8 +233,8 @@ return(
                                 {createDepartments()}
                             </div>
                             <div className="regbtndiv">
-                            <button className="buttonreg" type="submit" id="submitbtn">Sign up</button>
-                        </div>
+                                <button className="buttonreg" type="submit" id="submitbtn">Sign up</button>
+                            </div>
                         </div>
                     </form>
                 }
