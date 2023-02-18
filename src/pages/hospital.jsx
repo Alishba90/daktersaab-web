@@ -138,20 +138,23 @@ const Hospital = () => {
         )
     }
 
-    const logout = (e) => {
-        e.preventDefault()
-        setformValue({
-            email: '',
-            password: '',
-            location: '',
-            name: '',
-            phone1: '',
-            phone2: '',
-            timings: { open: '', close: '' },
-            department: []
-        })
-        navigate('/');
-    }
+const logout=(e)=>{
+    e.preventDefault()
+    setformValue({
+    email:'',
+    password: '',
+    location:'',
+    name:'',
+    phone1:'',
+    phone2:'',
+    timings:{
+    open:'',
+    close:''},
+    department:[]
+  })
+    navigate('/');
+}
+
     return (
         <div class="regbodycontainer">
             <Navbar />
