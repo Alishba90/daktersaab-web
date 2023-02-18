@@ -161,15 +161,44 @@ const logout=(e)=>{
     navigate('/');
 }
 
+const [pop,setpop]=useState(false)
+const [selecteddeptname,setname]=useState()
 const deptview=(e)=>{
-    navigate('/department',{state:{register:false,dept:e.target.value}})
+
+setpop(true)
+setname(e.target.id)
+console.log(selecteddeptname)
+    
 }
+
+const deptpassword=(e)=>{try{
+        fetch('http://localhost:5000/api/hospital/deptvalid', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({name:selecteddeptname,pass:document.getElementById('deptpass').value})
+                }).then(res => {
+                    if (res.status === 200) {navigate('/department',{state:{register:false,dept:selecteddeptname}})}
+                    else{document.getElementById('e').innerHTML='Please enter valid password'}
+        })
+
+}catch(err){console.log(err)}}
     return (
         <div class="regbodycontainer">
             <Navbar />
+{pop &&
+        <div id='popuppass'>
+            <h3>{selecteddeptname}</h3>
+            <h5>Please enter password for this department</h5>
+            <h5 id='depset'></h5>
+            <input id="deptpass" type='text' ></input>
+            <button  onClick={deptpassword}>Submit</button>
+            <button  onClick={()=>{setpop(false)}}>Cancel</button>
+        </div>}
             <div class="regformcontainer">
                 {hosexist && <h1 >Hospital already exists</h1>}
-                {displaydata &&
+                {displaydata && <>
                     <div>
                         <Datadisplay Name={formValue.name} Location={formValue.location} Phone1={formValue.phone1} Phone2={formValue.phone2} Email={formValue.email} />
                         {formValue.department.map((item, index) => {return(<>
@@ -178,6 +207,7 @@ const deptview=(e)=>{
                         )})}
                         <input className="buttonreg" type='button' value='Logout' id='logoutbtn' onClick={logout} />
                     </div>
+</>
                 }
                 {signup &&
                     <form className="regformdiv" id="hospitaldata" onSubmit={submitRegisterForm}>
