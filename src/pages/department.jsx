@@ -174,14 +174,14 @@ return (
 <img src={imageupload}></img>
 </div>
 <hr/>
-
+<h1>{name}</h1>
+<h2>{branch}</h2>
 <div >
 {deptinfo.map((rows,index)=>{
 return(
 <div key={index} >       
         
-<h1>{name}</h1>
-<h2>{branch}</h2>
+<h1 id="errordept"></h1>
 <input value={rows.deptname } name={rows.deptname} id='deptname' style={{width: "30em"}} onChange={changenameinput}/><br/>
 <h1 id="depterror"></h1>
 <button value='delete' onClick={deldepart} className='deleteDep' name={rows.deptname} >Delete</button>

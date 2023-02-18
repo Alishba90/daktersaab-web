@@ -7,7 +7,7 @@ import './hospital.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faFlag, faPhone, faHospital, faLock, faKey, faLocation, faTimes, faEnvelope, faClock } from '@fortawesome/free-solid-svg-icons'
 import Navbar from './components/navbar';
-import { data } from "jquery";
+
 
 const Hospital = () => {
     let navigate = useNavigate();
@@ -89,7 +89,7 @@ const Hospital = () => {
         e.preventDefault();
 
         let checkedbox = [];
-        var val = document.getElementsByClassName('department')
+        var val = document.getElementsByClassName('checkbox')
         for (var i = 0; i < items.length; i++) {
             if (val[i].checked === true) {
                 checkedbox.push(val[i].value)
