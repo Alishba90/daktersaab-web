@@ -144,5 +144,11 @@ body{
     font-size: 16px;
     cursor: pointer;
     text-align: center;
-    /* width: 30%; */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+}
+
+.buttonr:hover , .buttons:hover {
+    background-color: rgb(93, 82, 163);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
