@@ -176,7 +176,7 @@ const logout=(e)=>{
 
 return(
     <>
-<input type='button' value='Logout' id='logoutbtn' onClick={logout}/>
+
 
 {hosexist &&
 <h1 >Hospital already exists</h1>
@@ -184,6 +184,8 @@ return(
 
 {displaydata &&
 <>
+<input type='button' value='Logout' id='logoutbtn' onClick={logout}/>
+
 <Datadisplay Name={formValue.name} Location ={formValue.location} Phone1={formValue.phone1} Phone2={formValue.phone2} Email={formValue.email}/>
 
 {formValue.department.map((item, index)=>{

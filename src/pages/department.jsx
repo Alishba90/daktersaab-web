@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate, useLocation} from "react-router-dom";
 import { useState , useEffect } from 'react';
 import Papa from "papaparse";
+import imageupload from '../images/dataupload.jpg';
 
 const Department=()=>{
 
@@ -10,25 +11,35 @@ let navigate = useNavigate();
 let location = useLocation();
 
 let {state}=location.state;
-const [formValue,setformValue]=useState({
-    location:'',
-    name:'',
-    department:[]
-
-})
 
 
+const name=location.state.Name
+const branch=location.state.Location
+const department=location.state.Department
 
 const [edit, setedit] = useState(false);
 const [data, setdata] = useState(true);
 const [view, setview] = useState(false);
+
+const [deptinfo,setdeptinfo]=useState([{
+    deptname:'',
+    deptpw:'',
+    deptphone:''
+
+}])
+
+let d=[]
+
 useEffect(()=>{
 
-setformValue({
-    location:location.state.Location,
-    name:location.state.Name,
-    department:location.state.Department
+
+
+department.map((row,index)=>{
+    d.push({deptname:row,deptpw:'',deptphone:''})
 })
+
+setdeptinfo(d)
+
 if(location.register){
 setdata(true)
 
@@ -38,12 +49,7 @@ setview(true)
 }
 },[])
 
-const [deptinfo,setdeptinfo]=useState([{
-    deptname:'',
-    deptpw:'',
-    deptphone:[]
 
-}])
 
 const nulldept=()=>{
     if((deptinfo.length>1)){
@@ -53,19 +59,17 @@ const nulldept=()=>{
         return true;
     }
 }
+useEffect(()=>{
+if(nulldept){document.getElementsByClassName('deleteDep').disabled=true}
+else{document.getElementsByClassName('deleteDep').disabled=false}
+console.log(deptinfo)
+})
 
 const deldepart=(e)=>{
-    if(nulldept){
-        e.target.disabled=true;
-    }
-    else{
-        e.target.disabled=false;
-        deptinfo.map((row,index)=>{
-            if(row.deptname===e.target.name){
 
-            }
-        })
-    }
+setdeptinfo(deptinfo.filter(item => item.deptname !== e.target.name));
+console.log(deptinfo)
+    
 }
 //State to store table Column name
 const [opdtableRows, setopdTableRows] = useState([]);
@@ -109,14 +113,41 @@ const editing =(e)=>{
 
 }
 
+const changeinput=(e)=>{
+
+
+setdeptinfo(deptinfo.filter(item => item.deptname !== e.target.name));
+console.log(deptinfo)
+
+    d=deptinfo;
+  
+    d[e.target.name][e.target.id]=e.target.value;
+    
+    setdeptinfo(d)
+    console.log('dept is',deptinfo)
+}
+
+const changenameinput=(e)=>{
+var g=deptinfo.findIndex(item => item.deptname === e.target.name)
+var db=[...deptinfo]
+
+db[g]['deptname']=e.target.value;
+setdeptinfo(db)
+console.log(g)
+}
+
+const changepwinput=(e)=>{}
+
+const changephoneinput=(e)=>{}
+
 const submitDoctors=(e)=>{
 try{
-      fetch('http://localhost:5000/api/doctor/addDr/'+formValue.name+'/'+formValue.location, {
+      fetch('http://localhost:5000/api/doctor/addDr/'+name+'/'+branch, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formValue)
+        body: JSON.stringify()
       })
                 
 
@@ -140,23 +171,23 @@ return (
 <>
 <div id='popup'>
 <h1>Enter data in the following format</h1>
-<img></img>
+<img src={imageupload}></img>
 </div>
 <hr/>
-<h1>{formValue.department}</h1>
-<div >
-{formValue.department.map((rows,index)=>{
-return(
-<div key={index} id={index}>       
-        
 
-<input value={{rows}+'department'} name='deptname' id={rows}/><br/>
+<div >
+{deptinfo.map((rows,index)=>{
+return(
+<div key={index} >       
+        
+<h1>{"key is" +index +'data is'+rows.deptname}</h1>
+<input value={rows.deptname } name={rows.deptname} id='deptname' style={{width: "30em"}} onChange={changenameinput}/><br/>
 <h1 id="depterror"></h1>
-<button value='delete' onClick={deldepart} id='deleteDep' name={rows} >Delete</button>
-<label>Phone: </label><input type='tel' name='depphone'/><br/>
+<button value='delete' onClick={deldepart} className='deleteDep' name={rows.deptname} >Delete</button>
+<label>Phone: </label><input type='tel' name={rows.deptphone} onChange={changephoneinput} id='deptphone' /><br/>
 <label>Please provide a password for this department</label><br/>
 
-<label>Password: </label><input type='password' name='depPass'/><br/>
+<label>Password: </label><input type='password' name={rows.deptpw} onChange={changepwinput} id='deptpw'/><br/>
 <label>Re-enter Password: </label><input type='password' name='depPass'/><br/>
 <label>Enter data for opd doctors</label><br/>
 
@@ -174,8 +205,8 @@ return(
         />
 </div>
 
-
-
+<button >Edit Data</button>
+<button>View Data</button>
 <hr/>
 </div>
 )})
