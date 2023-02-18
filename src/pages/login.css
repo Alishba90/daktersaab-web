@@ -1,21 +1,24 @@
 *{
     font-family: 'Times New Roman', Times, serif;
 }
-body {
-    overflow: hidden;
-}
-.bodycontainer {
+body{
     background-image: url('images/nbg.jpg');
-    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
     background-position: cover;
-    height: 100vh;
+    background-attachment: fixed;
+}
+
+.bodycontainer {
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
     }
 
 .container1 {
     position: absolute;
+    position: fixed;
     top: 90px;
     width: 70%;
     height: 80vh;
@@ -79,18 +82,17 @@ body {
     flex-wrap: wrap;
 }
 .faicon {
-    font-size: 16px;
-    color: rgb(79, 23, 129);
+    font-size: 14px;
+    color: rgb(80, 14, 138);
     margin-right: 5px;
 }
 .inputf:focus {
     outline: none;
-    box-shadow: 0 0 5px #2d2d2d;
+    box-shadow: 0 0 2px #4e4e4e;
 }
 .radiobtn {
     margin-left: 20px;
     display: flex;
-    /* justify-content: center; */
     align-items: center;
 }
 .radiobtn input[type="radio"] {

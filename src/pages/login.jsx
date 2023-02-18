@@ -2,9 +2,12 @@ import { Button } from "@material-ui/core";
 import * as React from "react";
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import "./login.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faHospital, faLock } from '@fortawesome/free-solid-svg-icons'
+import Navbar from './components/navbar';
+import "./login.css";
+
+
 
 const Login = () => {
   const location = useLocation();
@@ -95,8 +98,8 @@ const Login = () => {
   };
   return (
     <div class="bodycontainer">
+      <Navbar />
       <div class="container1">
-
         <div class="headcontainer">
           <h1 class='welheading'>Welcome</h1>
           <p class='subhead'>Authorize yourself as a {data}</p>
@@ -130,7 +133,7 @@ const Login = () => {
                 })}
               </div>
             )}
-
+            
             <div className="labeldiv">
               <label className="labelh"><FontAwesomeIcon className='faicon' icon={faLock} /> Password:</label>
               <input className="inputf" type="password" name="password" value={user.password} onChange={handleinputs} />

@@ -1,6 +1,8 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import "./home.css";
+import Navbar from './components/navbar';
+
 
 const Home = () => {
   let navigate = useNavigate();
@@ -14,8 +16,9 @@ const Home = () => {
     navigate("/login", { state: { data: "hospital" } });
   };
   return (
-    <>
+    
       <div className="homebodycontainer">
+      <Navbar />
         <div className="homecontainer1">
           <div className="buttonscontainer">
 
@@ -45,7 +48,7 @@ const Home = () => {
 
         </div>
       </div>
-    </>
+  
   );
 };
 

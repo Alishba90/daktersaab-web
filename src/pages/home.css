@@ -1,9 +1,12 @@
+body {
+  background-image: url('images/nbg.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: cover;
+  background-attachment: fixed;
+}
 
 .homebodycontainer {
-  background-image: url('./images/nbg.jpg');
-  background-attachment: fixed;
-    background-position: cover;
-    height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;

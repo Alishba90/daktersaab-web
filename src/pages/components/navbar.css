@@ -3,7 +3,6 @@
 }
 
 
-
 .navbar {
   position: fixed;
   top: 0;
@@ -11,6 +10,7 @@
   width: 100%;
   height: 60px;
   background-color: #d9c8fc;
+  z-index: 100;
 }
 
 .navbar-nav {
