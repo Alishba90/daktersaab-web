@@ -13,20 +13,21 @@ let {state}=location.state;
 const [formValue,setformValue]=useState({
     location:'',
     name:'',
-    department:''
+    department:[]
 
 })
 
 
 
 const [edit, setedit] = useState(false);
-const [data, setdata] = useState(false);
+const [data, setdata] = useState(true);
 const [view, setview] = useState(false);
 useEffect(()=>{
+
 setformValue({
-    location:location.state.info.Location,
-    name:location.state.info.Name,
-    department:location.state.info.Department
+    location:location.state.Location,
+    name:location.state.Name,
+    department:location.state.Department
 })
 if(location.register){
 setdata(true)
@@ -40,7 +41,7 @@ setview(true)
 const [deptinfo,setdeptinfo]=useState([{
     deptname:'',
     deptpw:'',
-    deptphone:''
+    deptphone:[]
 
 }])
 
@@ -67,13 +68,12 @@ const deldepart=(e)=>{
     }
 }
 //State to store table Column name
-const [tableRows, setTableRows] = useState([]);
+const [opdtableRows, setopdTableRows] = useState([]);
 
 //State to store the values
-const [values, setValues] = useState([]);
+const [opdvalues, setopdValues] = useState([]);
 
-
-const changeHandler = (event) => {
+  const changeHandler = (event) => {
     // Passing file data (event.target.files[0]) to parse using Papa.parse
     Papa.parse(event.target.files[0], {
       header: true,
@@ -88,21 +88,24 @@ const changeHandler = (event) => {
           valuesArray.push(Object.values(d));
         });
 
+        
         // Filtered Column Names
-        setTableRows(rowsArray[0]);
+        setopdTableRows(rowsArray[0]);
 
         // Filtered Values
-        setValues(valuesArray);
+        setopdValues(valuesArray);
       },
     });
 setedit(true);
   };
 
+
+
 const editing =(e)=>{
 
-        let v=values;
+        let v=opdvalues;
         v[e.target.id][e.target.name]=e.target.value;
-        setValues(v);
+        setopdValues(v);
 
 }
 
@@ -135,7 +138,12 @@ return (
 {data &&
 
 <>
+<div id='popup'>
+<h1>Enter data in the following format</h1>
+<img></img>
+</div>
 <hr/>
+<h1>{formValue.department}</h1>
 <div >
 {formValue.department.map((rows,index)=>{
 return(
@@ -144,12 +152,30 @@ return(
 
 <input value={{rows}+'department'} name='deptname' id={rows}/><br/>
 <h1 id="depterror"></h1>
-<button value='delete' onClick={deldepart} id='deleteDep' name={rows} />
-<label>Please provide a password for this department</label>
+<button value='delete' onClick={deldepart} id='deleteDep' name={rows} >Delete</button>
 <label>Phone: </label><input type='tel' name='depphone'/><br/>
+<label>Please provide a password for this department</label><br/>
+
 <label>Password: </label><input type='password' name='depPass'/><br/>
 <label>Re-enter Password: </label><input type='password' name='depPass'/><br/>
-<label>Enter data </label>
+<label>Enter data for opd doctors</label><br/>
+
+<div className="csv">
+<label>Enter data by uploading a CSV file:</label>
+<br />
+<br />
+        {/* File Uploader */}
+        <input
+          type="file"
+          name="file"
+          className="file_upload"
+          onChange={changeHandler}
+          accept=".csv"
+        />
+</div>
+
+
+
 <hr/>
 </div>
 )})
@@ -163,13 +189,13 @@ return(
 <table>
 <thead>
             <tr>
-              {tableRows.map((rows, index) => {
+              {opdtableRows.map((rows, index) => {
                 return <th key={index}>{rows}</th>;
               })}
             </tr>
           </thead>
 <tbody>
-            {values.map((value, index) => {
+            {opdvalues.map((value, index) => {
               return (
                 <tr key={index}>
                   {value.map((val, i) => {

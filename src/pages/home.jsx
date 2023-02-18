@@ -1,15 +1,11 @@
 import * as React from 'react';
-import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import './home.css';
 
 const Home = () => {
 
   let navigate = useNavigate();
-  const data = () => {
-    let path = './data';
-    navigate(path);
-  }
+  
   const bloodbank = () => {
 
     navigate('/login', { state: { data: "blood" } });

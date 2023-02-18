@@ -4,6 +4,7 @@ import { useState  } from 'react';
 import Datadisplay from "./components/datadisplay";
 import { useNavigate, useLocation} from "react-router-dom";
 import validator from "validator";
+import { data } from "jquery";
 
 
 
@@ -23,6 +24,12 @@ useEffect(()=>{
 if (location.state.data==='signup'){setsignup(true); }
 else {setdisplaydata(true);
 
+var Open , Close;
+try{
+if(!(location.state.info.Time.Close)||!(location.state.Time.Open)){Open ='';Close='';}
+else{Open=location.state.Time.Open;Close=location.state.info.Time.Close;}
+}
+catch(err){Open ='';Close='';}
 setformValue({
     email: location.state.info.Email,
     password: '',
@@ -31,8 +38,8 @@ setformValue({
     phone1:location.state.info.Phone1,
     phone2:location.state.info.Phone2,
     timings:{
-    open:location.state.info.Time.Open,
-    close:location.state.info.Time.Close},
+    open:Open,
+    close:Close},
     department:location.state.info.Department
   })
 
@@ -92,7 +99,7 @@ function handleUserInput(e){
 
 
 const submitRegisterForm = async(e)=>{
-
+        const dataset=formValue
             e.preventDefault();
 
         let checkedbox=[];
@@ -103,26 +110,26 @@ const submitRegisterForm = async(e)=>{
                 checkedbox.push(val[i].value)
             }
         }
-        console.log(checkedbox)
+        
         if(checkedbox.length>1){
-        setformValue({
-            ...formValue,
-            department: checkedbox
-        });
 
+
+        dataset['department']=checkedbox
+        
         try{
           fetch('http://localhost:5000/api/hospital/add', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formValue)
+                body: JSON.stringify(dataset)
             }).then(res => {
         if (res.status === 200){
                 sethospitalexist(false); 
                 setsignup(false)
-                document.getElementById('hospitalname').innerHTML=formValue.name;
-                navigate('/department',{state:{Name:formValue.name ,Location:formValue.location , Department:formValue.department,register:true}})
+               
+                alert("you master key has been sent to you by email")
+                navigate('/department',{state:{Name:formValue.name ,Location:formValue.location , Department:dataset.department,register:true}})
         }
         else if(res.status===430){sethospitalexist(true)}
 
@@ -165,13 +172,13 @@ const logout=(e)=>{
     close:''},
     department:[]
   })
-    navigate('/home');
+    navigate('/');
 }
 
 return(
     <>
 <input type='button' value='Logout' id='logoutbtn' onClick={logout}/>
-<h1 id='hospitalname'></h1>
+
 {hosexist &&
 <h1 >Hospital already exists</h1>
 }
@@ -180,7 +187,7 @@ return(
 <>
 <Datadisplay Name={formValue.name} Location ={formValue.location} Phone1={formValue.phone1} Phone2={formValue.phone2} Email={formValue.email}/>
 
-{formValue.map((item, index)=>{
+{formValue.department.map((item, index)=>{
 
 <input type='button' name="departmentView" value={item} key={index} id={item} />
 
