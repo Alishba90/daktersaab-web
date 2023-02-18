@@ -114,8 +114,7 @@ const submitRegisterForm = async(e)=>{
 
 
         dataset['department']=checkedbox
-        console.log(dataset)
-
+        
         try{
           fetch('http://localhost:5000/api/hospital/add', {
                 method: 'POST',
@@ -128,7 +127,7 @@ const submitRegisterForm = async(e)=>{
                 sethospitalexist(false); 
                 setsignup(false)
                
-                alert(dataset.department)
+                alert("you master key has been sent to you by email")
                 navigate('/department',{state:{Name:formValue.name ,Location:formValue.location , Department:dataset.department,register:true}})
         }
         else if(res.status===430){sethospitalexist(true)}

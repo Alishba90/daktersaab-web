@@ -23,7 +23,7 @@ const [edit, setedit] = useState(false);
 const [data, setdata] = useState(true);
 const [view, setview] = useState(false);
 useEffect(()=>{
-console.log("this upda",location.state)
+
 setformValue({
     location:location.state.Location,
     name:location.state.Name,
@@ -73,15 +73,14 @@ const [opdtableRows, setopdTableRows] = useState([]);
 //State to store the values
 const [opdvalues, setopdValues] = useState([]);
 
-const rowsArray = [];
-const valuesArray = [];
-const changeHandler = (event) => {
+  const changeHandler = (event) => {
     // Passing file data (event.target.files[0]) to parse using Papa.parse
     Papa.parse(event.target.files[0], {
       header: true,
       skipEmptyLines: true,
       complete: function (results) {
-
+        const rowsArray = [];
+        const valuesArray = [];
 
         // Iterating data to get column name and their values
         results.data.map((d) => {
@@ -89,21 +88,18 @@ const changeHandler = (event) => {
           valuesArray.push(Object.values(d));
         });
 
-
-      }
-    }
-
-
-);
-
+        
         // Filtered Column Names
         setopdTableRows(rowsArray[0]);
 
         // Filtered Values
         setopdValues(valuesArray);
-
+      },
+    });
 setedit(true);
   };
+
+
 
 const editing =(e)=>{
 
@@ -156,9 +152,10 @@ return(
 
 <input value={{rows}+'department'} name='deptname' id={rows}/><br/>
 <h1 id="depterror"></h1>
-<button value='delete' onClick={deldepart} id='deleteDep' name={rows} />
-<label>Please provide a password for this department</label>
+<button value='delete' onClick={deldepart} id='deleteDep' name={rows} >Delete</button>
 <label>Phone: </label><input type='tel' name='depphone'/><br/>
+<label>Please provide a password for this department</label><br/>
+
 <label>Password: </label><input type='password' name='depPass'/><br/>
 <label>Re-enter Password: </label><input type='password' name='depPass'/><br/>
 <label>Enter data for opd doctors</label><br/>
