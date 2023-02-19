@@ -178,10 +178,15 @@ const deptpassword=(e)=>{try{
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({Name:formValue.name,Location:formValue.location,deptname:selecteddeptname,deptpass:document.getElementById('deptpass').value})
-                }).then(res => {
-                    if (res.status === 200) {navigate('/department',{state:{register:false,dept:selecteddeptname}})}
-                    else{document.getElementById('e').innerHTML='Please enter valid password'}
-        })
+                }).then((response) => response.json())
+                .then((json) => {
+                    if(json.error){document.getElementById('e').innerHTML=json.error}
+                    else{console.log(json.Department)
+                        navigate('/department',{state:{register:false,dept:json.Department,Name:formValue.name,Location:formValue.location,}})
+                        
+                    }
+                })
+
 
 }catch(err){console.log(err)}}
     return (

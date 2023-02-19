@@ -16,11 +16,13 @@ let {state}=location.state;
 
 const name=location.state.Name
 const branch=location.state.Location
-const department=location.state.Department
+
 
 const [edit, setedit] = useState(false);
 const [data, setdata] = useState(true);
 const [view, setview] = useState(false);
+
+const [login , setlogin]=useState(false);
 
 const [deptinfo,setdeptinfo]=useState([{
     deptname:'',
@@ -30,23 +32,27 @@ const [deptinfo,setdeptinfo]=useState([{
 }])
 
 let d=[]
+let dept={'Name':'','Phone':'','Password':''}
 
 useEffect(()=>{
 
 
 
-department.map((row,index)=>{
+
+if(location.register){
+setdata(true)
+const department=location.state.Department
+department.map((row)=>{
     d.push({deptname:row,deptpw:'',deptphone:''})
 })
 
 setdeptinfo(d)
 
-if(location.register){
-setdata(true)
-
 }
+
 else{
-setview(true)
+setlogin(true)
+dept=location.state.dept
 }
 },[])
 
@@ -190,7 +196,22 @@ e.target.innerHTML='View Data'
 
 return (
 <>
+<button onClick={()=>{navigate('/hospital')}}>Home</button>
 
+
+
+
+<h1 onClick={()=>{navigate('/hospital')}} style={{cursor:'pointer'}}>Hospital Name : {name}</h1>
+<h2>Hospital Location: {branch}</h2>
+
+{login && <>
+
+
+
+
+
+
+</>}
 {data &&
 
 <>
@@ -203,8 +224,7 @@ return (
 <img src={imageedit}></img>
 </div>
 <hr/>
-<h1>Hospital Name : {name}</h1>
-<h2>Hospital Location: {branch}</h2>
+
 <div >
 {deptinfo.map((rows,index)=>{
 return(
