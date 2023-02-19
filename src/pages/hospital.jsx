@@ -33,9 +33,9 @@ const Hospital = () => {
         if (location.state.data === 'signup') { setsignup(true); }
         else {
             setdisplaydata(true);
-            
-    var f=[];for(var i =0;i<location.state.info.Department.length;i++){f.push(location.state.info.Department[i]['Name'])}
-            
+
+            var f = []; for (var i = 0; i < location.state.info.Department.length; i++) { f.push(location.state.info.Department[i]['Name']) }
+
             var Open, Close;
             try {
                 if (!(location.state.info.Time.Close) || !(location.state.Time.Open)) { Open = ''; Close = ''; }
@@ -51,10 +51,10 @@ const Hospital = () => {
                 phone1: location.state.info.Phone1,
                 phone2: location.state.info.Phone2,
                 timings: { open: Open, close: Close },
-                department:f
+                department: f
             })
-        }console.log('this',formValue.department);
-       
+        } console.log('this', formValue.department);
+
     }, [])
 
     const [eValid, setevalid] = useState();
@@ -144,70 +144,80 @@ const Hospital = () => {
         )
     }
 
-const logout=(e)=>{
-    e.preventDefault()
-    setformValue({
-    email:'',
-    password: '',
-    location:'',
-    name:'',
-    phone1:'',
-    phone2:'',
-    timings:{
-    open:'',
-    close:''},
-    department:[]
-  })
-    navigate('/');
-}
-
-const [pop,setpop]=useState(false)
-const [selecteddeptname,setname]=useState()
-const deptview=(e)=>{
-
-setpop(true)
-setname(e.target.id)
-console.log(selecteddeptname)
-    
-}
-
-const deptpassword=(e)=>{try{
-        fetch('http://localhost:5000/api/hospital/deptvalid', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({name:selecteddeptname,pass:document.getElementById('deptpass').value})
-                }).then(res => {
-                    if (res.status === 200) {navigate('/department',{state:{register:false,dept:selecteddeptname}})}
-                    else{document.getElementById('e').innerHTML='Please enter valid password'}
+    const logout = (e) => {
+        e.preventDefault()
+        setformValue({
+            email: '',
+            password: '',
+            location: '',
+            name: '',
+            phone1: '',
+            phone2: '',
+            timings: {
+                open: '',
+                close: ''
+            },
+            department: []
         })
+        navigate('/');
+    }
 
-}catch(err){console.log(err)}}
+    // --------popup------------------
+    const [pop, setpop] = useState(false)
+    const [selecteddeptname, setname] = useState()
+    const deptview = (e) => {
+        setpop(true)
+        setname(e.target.id)
+        console.log(selecteddeptname)
+    }
+    const deptpassword = (e) => {
+        try {
+            fetch('http://localhost:5000/api/hospital/deptvalid', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: selecteddeptname, pass: document.getElementById('deptpass').value })
+            }).then(res => {
+                if (res.status === 200) { navigate('/department', { state: { register: false, dept: selecteddeptname } }) }
+                else { document.getElementById('e').innerHTML = 'Please enter valid password' }
+            })
+
+        } catch (err) { console.log(err) }
+    }
+
+
     return (
         <div class="regbodycontainer">
             <Navbar />
-{pop &&
-        <div id='popuppass'>
-            <h3>{selecteddeptname}</h3>
-            <h5>Please enter password for this department</h5>
-            <h5 id='depset'></h5>
-            <input id="deptpass" type='text' ></input>
-            <button  onClick={deptpassword}>Submit</button>
-            <button  onClick={()=>{setpop(false)}}>Cancel</button>
-        </div>}
+
+            {pop && (
+                <div className="popup" id='popuppass'>
+                    <h3>{selecteddeptname}</h3>
+                    <h5>Please enter password for this department</h5>
+                    <h5 id='depset'></h5>
+                    <input id="deptpass" type='text' ></input>
+                    <div className="popupbtndiv">
+                        <button onClick={deptpassword}>Submit</button>
+                        <button onClick={() => { setpop(false) }}>Cancel</button>
+                    </div>
+                </div>)}
+
+
             <div class="regformcontainer">
                 {hosexist && <h1 >Hospital already exists</h1>}
                 {displaydata && <>
                     <div>
                         <Datadisplay Name={formValue.name} Location={formValue.location} Phone1={formValue.phone1} Phone2={formValue.phone2} Email={formValue.email} />
-                        {formValue.department.map((item, index) => {return(<>
-                            
-                            <button name="departmentView" value={item} key={index} id={item} onClick={deptview}>{item}</button><br/></>
-                        )})}
+                        {formValue.department.map((item, index) => {
+                            return (<>
+
+                                <button name="departmentView" value={item} key={index} id={item} onClick={deptview}>{item}</button><br /></>
+                            )
+                        })}
                         <input className="buttonreg" type='button' value='Logout' id='logoutbtn' onClick={logout} />
                     </div>
-</>
+                </>
                 }
                 {signup &&
                     <form className="regformdiv" id="hospitaldata" onSubmit={submitRegisterForm}>
@@ -283,5 +293,6 @@ const deptpassword=(e)=>{try{
         </div>
     )
 }
+
 
 export default Hospital
