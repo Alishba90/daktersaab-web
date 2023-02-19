@@ -136,3 +136,56 @@ body {
 .rerrormsg {
     color: red;
 }
+  
+  .popup {
+    position: relative;
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+    max-width: 80%;
+    max-height: 80%;
+    overflow-y: auto;
+  }
+  
+  .popup h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 0;
+  }
+  
+  .popup h5 {
+    font-size: 16px;
+    /* margin-top: 10px; */
+  }
+  
+  .popup input[type="text"] {
+    border: 1px solid #ccc;
+    padding: 8px;
+    font-size: 16px;
+    margin-top: 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .popupbtndiv{
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .popup button {
+    background-color: rgb(144, 127, 255);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .popup button:hover {
+    background-color: rgb(93, 82, 163);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  

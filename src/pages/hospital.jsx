@@ -10,7 +10,7 @@ import Navbar from './components/navbar';
 
 
 const Hospital = () => {
-    let navigate = useNavigate();
+let navigate = useNavigate();
     let location = useLocation();
 
     let { state } = location.state;
@@ -187,27 +187,34 @@ const deptpassword=(e)=>{try{
     return (
         <div class="regbodycontainer">
             <Navbar />
-{pop &&
-        <div id='popuppass'>
-            <h3>{selecteddeptname}</h3>
-            <h5>Please enter password for this department</h5>
-            <h5 id='depset'></h5>
-            <input id="deptpass" type='text' ></input>
-            <button  onClick={deptpassword}>Submit</button>
-            <button  onClick={()=>{setpop(false)}}>Cancel</button>
-        </div>}
+
+            {pop && (
+                <div className="popup" id='popuppass'>
+                    <h3>{selecteddeptname}</h3>
+                    <h5>Please enter password for this department</h5>
+                    <h5 id='depset'></h5>
+                    <input id="deptpass" type='text' ></input>
+                    <div className="popupbtndiv">
+                        <button onClick={deptpassword}>Submit</button>
+                        <button onClick={() => { setpop(false) }}>Cancel</button>
+                    </div>
+                </div>)}
+
+
             <div class="regformcontainer">
                 {hosexist && <h1 >Hospital already exists</h1>}
                 {displaydata && <>
                     <div>
                         <Datadisplay Name={formValue.name} Location={formValue.location} Phone1={formValue.phone1} Phone2={formValue.phone2} Email={formValue.email} />
-                        {formValue.department.map((item, index) => {return(<>
-                            
-                            <button name="departmentView" value={item} key={index} id={item} onClick={deptview}>{item}</button><br/></>
-                        )})}
+                        {formValue.department.map((item, index) => {
+                            return (<>
+
+                                <button name="departmentView" value={item} key={index} id={item} onClick={deptview}>{item}</button><br /></>
+                            )
+                        })}
                         <input className="buttonreg" type='button' value='Logout' id='logoutbtn' onClick={logout} />
                     </div>
-</>
+                </>
                 }
                 {signup &&
                     <form className="regformdiv" id="hospitaldata" onSubmit={submitRegisterForm}>
@@ -283,5 +290,6 @@ const deptpassword=(e)=>{try{
         </div>
     )
 }
+
 
 export default Hospital
