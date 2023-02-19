@@ -5,6 +5,9 @@ import Papa from "papaparse";
 import imageupload from '../images/dataupload.jpg';
 import imageview from '../images/dataviewpic.jpg';
 import imageedit from '../images/dataeditpic.jpg';
+import Navbar from './components/navbar';
+import depan from '../images/depan.png'
+import depana from '../images/depana.png'
 const Department=()=>{
 
 
@@ -19,7 +22,7 @@ const branch=location.state.Location
 
 
 const [edit, setedit] = useState(false);
-const [data, setdata] = useState(true);
+const [data, setdata] = useState(false);
 const [view, setview] = useState(false);
 
 const [login , setlogin]=useState(false);
@@ -32,14 +35,13 @@ const [deptinfo,setdeptinfo]=useState([{
 }])
 
 let d=[]
-let dept={'Name':'','Phone':'','Password':''}
 
 useEffect(()=>{
 
 
 
 
-if(location.register){
+if(location.register===true){
 setdata(true)
 const department=location.state.Department
 department.map((row)=>{
@@ -52,7 +54,8 @@ setdeptinfo(d)
 
 else{
 setlogin(true)
-dept=location.state.dept
+let dept=[{'deptname':location.state.dept.Name,'deptphone': location.state.dept.Phone,'deptpw': location.state.dept.Password}]
+setdeptinfo(dept)
 }
 },[])
 
@@ -196,20 +199,30 @@ e.target.innerHTML='View Data'
 
 return (
 <>
-<button onClick={()=>{navigate('/hospital')}}>Home</button>
+<div class="regbodycontainer">
+<Navbar loc='/hospital'/>
 
 
 
+<div class="regformcontainer">
 
 <h1 onClick={()=>{navigate('/hospital')}} style={{cursor:'pointer'}}>Hospital Name : {name}</h1>
-<h2>Hospital Location: {branch}</h2>
+<h3>{branch}</h3>
 
 {login && <>
+<div className="DDlabeldiv">
+
+<label style={{marginLeft: '-1em',fontSize:'2em'}}> {deptinfo[0].deptname} Department</label>
+
+<label style={{marginLeft: '9em',fontSize:'2em'}}>Phone : </label>
+<label style={{marginLeft: '1em',fontSize:'2em'}}>03310211080{deptinfo[0].deptphone}</label>
 
 
-
-
-
+</div>
+<div>
+<img src={depan} style={{marginTop: '2em',height:'18em',width:'35em'}}></img>
+<img src={depana} style={{marginLeft: '1em',marginTop: '2em',height:'18em',width:'35em'}}></img>
+</div>
 
 </>}
 {data &&
@@ -401,9 +414,8 @@ return(
 
 
 
-
-
-
+</div>
+</div>
 </>
 )}
 

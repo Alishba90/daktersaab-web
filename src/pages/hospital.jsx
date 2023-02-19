@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import validator from "validator";
 import './hospital.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser, faFlag, faPhone, faHospital, faLock, faKey, faLocation, faTimes, faEnvelope, faClock } from '@fortawesome/free-solid-svg-icons'
+import {  faPhone, faHospital, faKey, faLocation, faEnvelope, faClock } from '@fortawesome/free-solid-svg-icons'
 import Navbar from './components/navbar';
 
 
@@ -179,19 +179,25 @@ const deptpassword=(e)=>{try{
                     },
                     body: JSON.stringify({Name:formValue.name,Location:formValue.location,deptname:selecteddeptname,deptpass:document.getElementById('deptpass').value})
                 }).then((response) => response.json())
-                .then((json) => {
-                    if(json.error){document.getElementById('e').innerHTML=json.error}
-                    else{console.log(json.Department)
-                        navigate('/department',{state:{register:false,dept:json.Department,Name:formValue.name,Location:formValue.location,}})
+                .then((json) => {console.log(json.Department)
+                    if(!json.error){
                         
+                        navigate('/department',{state:{dept:json.Department,Name:formValue.name,Location:formValue.location},register:false})
+}
+                    else{
+                        document.getElementById('e').innerHTML=json.error
                     }
                 })
 
 
 }catch(err){console.log(err)}}
+
+
+
+
     return (
         <div class="regbodycontainer">
-            <Navbar />
+            <Navbar loc='/hospital'/>
 
             {pop && (
                 <div className="popup" id='popuppass'>
@@ -210,14 +216,22 @@ const deptpassword=(e)=>{try{
                 {hosexist && <h1 >Hospital already exists</h1>}
                 {displaydata && <>
                     <div>
-                        <Datadisplay Name={formValue.name} Location={formValue.location} Phone1={formValue.phone1} Phone2={formValue.phone2} Email={formValue.email} />
-                        {formValue.department.map((item, index) => {
-                            return (<>
-
-                                <button name="departmentView" value={item} key={index} id={item} onClick={deptview}>{item}</button><br /></>
-                            )
-                        })}
+                        <Datadisplay
+                        Name={formValue.name}
+                        Location={formValue.location}
+                        Phone1={formValue.phone1}
+                        Phone2={formValue.phone2}
+                        Email={formValue.email} />
+                    {formValue.department.map((item, index) => {
+                        return (
+                            <div className="DDdepartments">
+                                <button className="DDbtn " name="departmentView" value={item} key={index} id={item} onClick={deptview}>{item}</button>
+                            </div>
+                        )
+                    })}
+                    <div className="DDdepartments">
                         <input className="buttonreg" type='button' value='Logout' id='logoutbtn' onClick={logout} />
+                    </div>
                     </div>
                 </>
                 }

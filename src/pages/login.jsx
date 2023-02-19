@@ -99,7 +99,7 @@ console.log(e.target.value)
   };
   return (
     <div class="bodycontainer">
-      <Navbar />
+      <Navbar loc='/' />
       <div class="container1">
         <div class="headcontainer">
           <h1 class='welheading'>Welcome</h1>

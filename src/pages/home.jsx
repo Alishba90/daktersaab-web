@@ -7,7 +7,7 @@ import Navbar from './components/navbar';
 const Home = () => {
   let navigate = useNavigate();
   const bloodbank = () => {
-    navigate("/login", { state: { data: "blood" } });
+    navigate("/login", { state: { data: "blood bank" } });
   };
   const pharmacy = () => {
     navigate("/login", { state: { data: "pharmacy" } });
@@ -18,7 +18,7 @@ const Home = () => {
   return (
     
       <div className="homebodycontainer">
-      <Navbar />
+      <Navbar loc='/'/>
         <div className="homecontainer1">
           <div className="buttonscontainer">
 

@@ -5,7 +5,7 @@ import './navbar.css'; // Import the CSS file
 import logo from '../images/logo.png'; // Import the logo image
 
 
-const Navbar = () => {
+const Navbar = (props) => {
     return (
         <nav className="navbar">
             <ul className="navbar-nav">
@@ -17,7 +17,7 @@ const Navbar = () => {
                 </div>
                 <div className='links'>
                 <li className="nav-item">
-                    <Link to="/" className="nav-link">
+                    <Link to={props.loc} className="nav-link">
                         Home
                     </Link>
                 </li>
