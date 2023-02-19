@@ -3,7 +3,8 @@ import { useNavigate, useLocation} from "react-router-dom";
 import { useState , useEffect } from 'react';
 import Papa from "papaparse";
 import imageupload from '../images/dataupload.jpg';
-
+import imageview from '../images/dataviewpic.jpg';
+import imageedit from '../images/dataeditpic.jpg';
 const Department=()=>{
 
 
@@ -100,7 +101,7 @@ const [opdvalues, setopdValues] = useState([]);
         setopdValues(valuesArray);
       },
     });
-setedit(true);
+
   };
 
 
@@ -136,7 +137,11 @@ setdeptinfo(db)
 console.log(g)
 }
 
-const changepwinput=(e)=>{}
+const changepwinput=(e)=>{
+
+if(e.target.value!==document.getElementById('reenter').value){document.getElementById('errordept').innerHTML='The passwords dont match'}
+
+}
 
 const changephoneinput=(e)=>{}
 
@@ -161,7 +166,27 @@ else{console.log("error in sending data", res.data)}
 
 }
 
+const [viewd,setviewd] = useState(false)
 
+const enableedit=(e)=>{
+if(!edit){
+setedit(true);setviewd(false);document.getElementById('viewbtn').innerHTML='View Data'
+e.target.innerHTML='Hide'}
+else{
+setedit(false);
+e.target.innerHTML='Edit Data'
+}
+}
+
+const enableview=(e)=>{
+if(!viewd){
+setviewd(true);setedit(false);document.getElementById('editbtn').innerHTML='Edit Data'
+e.target.innerHTML='Hide'}
+else{
+setviewd(false);
+e.target.innerHTML='View Data'
+}
+}
 
 return (
 <>
@@ -171,11 +196,15 @@ return (
 <>
 <div id='popup'>
 <h1>Enter data in the following format</h1>
-<img src={imageupload}></img>
+<img src={imageupload}></img><hr/>
+<h1>You can even view your uploaded data file</h1>
+<img src={imageview}></img><hr/>
+<h1>Or edit the data file for changes if you want</h1>
+<img src={imageedit}></img>
 </div>
 <hr/>
-<h1>{name}</h1>
-<h2>{branch}</h2>
+<h1>Hospital Name : {name}</h1>
+<h2>Hospital Location: {branch}</h2>
 <div >
 {deptinfo.map((rows,index)=>{
 return(
@@ -183,19 +212,19 @@ return(
         
 <h1 id="errordept"></h1>
 <input value={rows.deptname } name={rows.deptname} id='deptname' style={{width: "30em"}} onChange={changenameinput}/><br/>
-<h1 id="depterror"></h1>
+
 <button value='delete' onClick={deldepart} className='deleteDep' name={rows.deptname} >Delete</button>
 <label>Phone: </label><input type='tel' name={rows.deptphone} onChange={changephoneinput} id='deptphone' /><br/>
 <label>Please provide a password for this department</label><br/>
 
 <label>Password: </label><input type='password' name={rows.deptpw} onChange={changepwinput} id='deptpw'/><br/>
-<label>Re-enter Password: </label><input type='password' name='depPass'/><br/>
-<label>Enter data for opd doctors</label><br/>
-
+<label>Re-enter Password: </label><input type='password'  id='reenter'/><br/>
+<label>Enter data by uploading a CSV file:</label><br/>
+<label>Enter data for opd doctors and their schedule</label>
+<div>
 <div className="csv">
-<label>Enter data by uploading a CSV file:</label>
-<br />
-<br />
+
+
         {/* File Uploader */}
         <input
           type="file"
@@ -206,15 +235,35 @@ return(
         />
 </div>
 
-<button >Edit Data</button>
-<button>View Data</button>
-<hr/>
-</div>
-)})
-}
-</div>
-<hr/>
+<button onClick={enableedit} id='editbtn'>Edit Data</button>
+<button onClick={enableview} id='viewbtn'>View Data</button>
+{viewd &&
 
+<div>
+<table>
+<thead>
+            <tr>
+              {opdtableRows.map((rows, index) => {
+                return <th key={index}>{rows}</th>;
+              })}
+            </tr>
+          </thead>
+<tbody>
+            {opdvalues.map((value, index) => {
+              return (
+                <tr key={index}>
+                  {value.map((val, i) => {
+                    return <td key={i}><label id={index} >{val}</label></td>;
+                  })}
+                </tr>
+              );
+            })}
+
+</tbody>
+</table>
+
+</div>
+}
 {edit &&
 
 <div>
@@ -239,9 +288,94 @@ return(
 
 </tbody>
 </table>
-<input type="button" onClick={submitDoctors} value="Confirm and Proceed"/>
+
 </div>
 }
+
+</div>
+
+<label>Enter data for appointment based doctors and specialists</label>
+<div>
+<div className="csv">
+
+
+        {/* File Uploader */}
+        <input
+          type="file"
+          name="file"
+          className="file_upload"
+          onChange={changeHandler}
+          accept=".csv"
+        />
+</div>
+
+<button onClick={enableedit} id='editbtn'>Edit Data</button>
+<button onClick={enableview} id='viewbtn'>View Data</button>
+{viewd &&
+
+<div>
+<table>
+<thead>
+            <tr>
+              {opdtableRows.map((rows, index) => {
+                return <th key={index}>{rows}</th>;
+              })}
+            </tr>
+          </thead>
+<tbody>
+            {opdvalues.map((value, index) => {
+              return (
+                <tr key={index}>
+                  {value.map((val, i) => {
+                    return <td key={i}><label id={index} >{val}</label></td>;
+                  })}
+                </tr>
+              );
+            })}
+
+</tbody>
+</table>
+
+</div>
+}
+{edit &&
+
+<div>
+<table>
+<thead>
+            <tr>
+              {opdtableRows.map((rows, index) => {
+                return <th key={index}>{rows}</th>;
+              })}
+            </tr>
+          </thead>
+<tbody>
+            {opdvalues.map((value, index) => {
+              return (
+                <tr key={index}>
+                  {value.map((val, i) => {
+                    return <td key={i}><input className="editInput" value={val} id={index} name={i} onChange={editing}/></td>;
+                  })}
+                </tr>
+              );
+            })}
+
+</tbody>
+</table>
+
+</div>
+}
+
+</div>
+
+<hr/>
+</div>
+)})
+}
+</div>
+<hr/>
+
+
 </>
 }
 

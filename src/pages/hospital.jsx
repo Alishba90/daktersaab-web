@@ -177,7 +177,7 @@ const deptpassword=(e)=>{try{
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({name:selecteddeptname,pass:document.getElementById('deptpass').value})
+                    body: JSON.stringify({Name:formValue.name,Location:formValue.location,deptname:selecteddeptname,deptpass:document.getElementById('deptpass').value})
                 }).then(res => {
                     if (res.status === 200) {navigate('/department',{state:{register:false,dept:selecteddeptname}})}
                     else{document.getElementById('e').innerHTML='Please enter valid password'}
